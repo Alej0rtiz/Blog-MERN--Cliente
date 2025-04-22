@@ -1,0 +1,119 @@
+// Impors de axios para hacer peticiones HTTP
+import axios from 'axios';
+
+//imports de mensajes de error y rutas de servicio desde la configuración del proyecto
+import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from '../constantes/config';
+
+// URL base del servidor backend
+const API_URL = 'http://localhost:8000'; 
+
+//instancia personalizada de axios con configuración predeterminada
+const axiosInstance = axios.create({
+
+    baseURL: API_URL,
+    timeout: 10000, // tiempo máximo de espera de 10 segundos
+    headers: {
+        'Content-Type': 'application/json', // se espera enviar y recibir JSON
+    },
+});
+
+
+// Interceptor de peticiones
+// Se ejecuta antes de que una petición sea enviada
+axiosInstance.interceptors.request.use(
+    function (config) {
+        //abierto a poder añadir cabeceras de autenticación u otros cambios globales
+        return config;
+    },
+    function (error) {
+        // Captura errores antes de que la petición se envíe
+        return Promise.reject(error);
+    }
+);
+
+// Interceptor de respuestas
+// Se ejecuta automáticamente al recibir una respuesta del backend
+axiosInstance.interceptors.response.use(
+
+    function (response) {
+        // Procesa la respuesta con una función personalizada
+        return ProcessResponse(response);
+    },
+    function (error) {
+        // Procesa el error con una función personalizada
+        return Promise.reject(ProcessError(error));
+    }
+);
+
+// Procesa respuestas exitosas
+const ProcessResponse = (response) => {
+    //si el codigo de estado es 200 (Exito)
+    if (response?.status === 200) {
+        return {IsSuccess: true, data: response.data};
+    
+    }else {
+        // Para otros códigos de estado, se interpreta como fallo
+        return {IsFailure: true, status: response?.status, message: response?.msg, code: response?.code };
+    }
+};
+
+// Proceso de diferentes tipos de errores de red
+const ProcessError = (error) => {
+    if (error?.response) {
+        console.log('Error en la respuesta:', error.toJSON());
+        return{
+            isError: true,
+            msg: API_NOTIFICATION_MESSAGES.responseError,
+            code: error.response.status
+        }
+    } else if (error.request) {
+        console.log('Error en la solicitud:', error.toJSON());
+        return {
+            isError: true,
+            msg: API_NOTIFICATION_MESSAGES.requestError,
+            code: ""
+        }
+    } else {
+        console.log('Error desconocido (posible error de red):', error.toJSON());
+        return {
+            isError: true,
+            msg: API_NOTIFICATION_MESSAGES.networkError,
+            code: ""
+        }
+    }
+};
+
+// Objeto donde se definirán dinámicamente las funciones para consumir cada endpoint
+const API = {};
+
+// Por cada entrada en SERVICE_URLS, se crea una función correspondiente en el objeto API
+for (const [key, value] of Object.entries(SERVICE_URLS)) {
+    API[key] = (body, showUploadProgress, showDownloadProgress) =>{
+        return axiosInstance({
+
+            method: value.method,   // tipo de petición: GET, POST, etc.
+            url: value.url,         // ruta relativa del endpoint (ej, para signup: '/signup')
+            data: body,             // cuerpo de la petición (datos enviados)
+            responseType: value.responseType,   // tipo de respuesta esperada (json)
+
+            // Callback para mostrar progreso de subida (si aplica)
+            onUploadProgress: (progressEvent) => {
+                if (showUploadProgress) {
+                    let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    showUploadProgress(percentCompleted);
+                }
+            },
+
+            // Callback para mostrar progreso de descarga (si aplica)
+            onDownloadProgress: (progressEvent) => {
+                if (showDownloadProgress) {
+                    let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    showDownloadProgress(percentCompleted);
+                }
+            }
+        });
+    }
+}
+
+//Export del objeto API para su uso en otros componentes
+export { API };
