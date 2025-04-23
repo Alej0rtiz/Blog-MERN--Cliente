@@ -11,15 +11,24 @@ import LoginImage from '../../assets/Logo-nobg.png';
 //import de la API para hacer peticiones al backend
 import { API } from '../../Servicio/api.js';
 
+const Fondo = styled(Box)`
+ background: linear-gradient(135deg, #6e44ff, #b892ff); // degradado púrpura moderno
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-//---------------------------------------------
-// Estilos personalizados con styled-components
-//---------------------------------------------
+
+//Elementos estilizados
 const Componente = styled(Box)`
     width: 400px;
-    margin: auto;
-    box-shadow: 5px 2px 5px 2px rgb(0 0 0/ 0.6);
-    
+  margin: auto;
+  padding: 20px;
+  background-color: rgba(204, 205, 220, 0.59);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 `;
 
 const Imagen = styled('img')({
@@ -43,42 +52,39 @@ const Wrapper = styled(Box)`
 
 const LoginButton = styled(Button)`
     text-transform: none;
-    background: #FB641B;
+    background:rgb(71, 15, 182); /* Morado */
     color: #fff;
     height: 48px;
-    border-radius: 2px;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+        background:rgb(125, 42, 243); /* Morado más oscuro */
+        transform: scale(1.03);
+    }
 `;
 
-const SignUpButton = styled(Button)`
-    text-transform: none;
-    background: #fff;
-    color: #2874f0;
+const SingUpButton = styled(Button)`
+   text-transform: none;
+    background:rgb(5, 104, 254); /* Verde */
+    color: white;
     height: 48px;
-    border-radius: 2px;
-    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+        background:rgba(31, 61, 235, 0.85); /* Verde más oscuro */
+        transform: scale(1.03);
+    }
 `;
 
-const Error = styled(Typography)`
-    font-size: 10px;
-    color: #ff6161;
-    line-height: 0;
-    margin-top: 10px;
-    font-weight: 600; 
-`;
-
-
-//---------------------------------------------
-// Valores iniciales para el formulario de registro (signup)
-//---------------------------------------------
+// Valores iniciales para el formulario de registro (signup):
 const signupInitialValues = {
     name: '',   //nombre real
     username: '',   //nombre de usuario
     password: '',   //contraseña
 }
-
-//---------------------------------------------
-// Componente principal
-//---------------------------------------------
 
 const Login = () => {
 
@@ -88,9 +94,7 @@ const Login = () => {
     // Estado para almacenar los datos del formulario de registro
     const [signup, setSignup] = useState(signupInitialValues);
 
-    // Estado para mostrar errores en pantalla
-    const [error, setError] = useState('');
-
+    
      // Función que alterna entre la vista de login y registro
     const toggleSingUp = () => {
         // Si ya está en la vista de registro, se vuelve al login; si no, cambia a signup
@@ -100,30 +104,15 @@ const Login = () => {
     // Función que se ejecuta cada vez que el usuario escribe en un input
     // Actualiza el estado "signup" usando el "name" del campo como clave
     const onInputChange = (e) =>{
-        setSignup({...signup, [e.target.name]: e.target.value});   
+
+        setSignup({...signup, [e.target.name]: e.target.value});
+        
+
     }
 
-    // Función que se ejecuta al hacer clic en el botón de registro
-    // Envía los datos del formulario de registro al backend
-    const SignUpUser = async () => {
-
-        let response = await API.userSignup(signup);
-        if(response.IsSuccess){
-
-            // Limpia error, reinicia formulario y cambia a vista de login
-            setError('');
-            setSignup(signupInitialValues);
-            toggleAccount('login');
-        }
-        else{
-
-            setError('Algo salió mal, intentelo nuevamente mas tarde');
-
-        }
-    };
-
-    //render del componente
+    //retorno del componente
     return(
+        <Fondo>
         <Componente>
             <Box>
                 <Imagen src={LoginImage} alt="Logo de Connect"/>
@@ -134,25 +123,27 @@ const Login = () => {
                     
                     //vista de inicio de sesion
                     <Wrapper>
+                    <Typography  variant="h5" align="center" fontWeight="bold">
+                        Iniciar sesion
+                    </Typography>
                     <TextField variant='standard' label='Nombre de usuario' />
                     <TextField variant='standard' label='Contraseña' />
                     <LoginButton variant='contained'>Iniciar Sesión</LoginButton>
                     {/* Botón para cambiar a la vista de registro */}
-                    <SignUpButton onClick={() => toggleSingUp()} variant='outlined'>Crear una Cuenta</SignUpButton>
+                    <SingUpButton onClick={() => toggleSingUp()} variant='outlined'>Crear una Cuenta</SingUpButton>
                 </Wrapper>
                 
                 :
 
                 //vista de registro
                 <Wrapper>
-                    <TextField variant='standard' name='name' label='Nombre' onChange={(e)=> onInputChange(e)} />
-                    <TextField variant='standard' name='username' label='Nombre de usuario' onChange={(e)=> onInputChange(e)} />
-                    <TextField variant='standard' name='password' label='Contraseña' onChange={(e)=> onInputChange(e)} />
-                    
-                    {/* Mensaje de error */}
-                    {error && <Error>{error}</Error>}
-                    
-                    <SignUpButton variant='contained' onClick={() => SignUpUser()}>Registrarse</SignUpButton>
+                    <Typography variant='h5' align='center' fontWeight="bold">
+                        Registrarse
+                    </Typography>
+                    <TextField variant='standard' name='UserName' label='Nombre de usuario' onChange={(e)=>onInputChange(e)} />
+                    <TextField variant='standard' name='Name' label='Nombre' onChange={(e)=>onInputChange(e)} />
+                    <TextField variant='standard' name='Password' label='Contraseña' onChange={(e)=>onInputChange(e)} />
+                    <SingUpButton variant='contained'>Registrarse</SingUpButton>
                     {/* Botón para volver a la vista de login */}
                     <LoginButton onClick={() => toggleSingUp()} variant='outlined'>Ya tengo una cuenta</LoginButton>
                 </Wrapper>
@@ -160,6 +151,7 @@ const Login = () => {
                 }
             </Box>
         </Componente>
+        </Fondo>
     )
 }
 
