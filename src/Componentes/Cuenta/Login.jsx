@@ -79,6 +79,14 @@ const SingUpButton = styled(Button)`
     }
 `;
 
+const Error = styled(Typography)`
+    font-size: 10px;
+    color: #ff6161;
+    line-height: 0;
+    margin-top: 10px;
+    font-weight: 600; 
+`;
+
 // Valores iniciales para el formulario de registro (signup):
 const signupInitialValues = {
     name: '',   //nombre real
@@ -93,6 +101,10 @@ const Login = () => {
 
     // Estado para almacenar los datos del formulario de registro
     const [signup, setSignup] = useState(signupInitialValues);
+
+    
+    // Estado para mostrar errores en pantalla
+    const [error, setError] = useState('');
 
     
      // Función que alterna entre la vista de login y registro
@@ -110,6 +122,24 @@ const Login = () => {
 
     }
 
+    // Función que se ejecuta al hacer clic en el botón de registro
+    // Envía los datos del formulario de registro al backend
+    const SignUpUser = async () => {
+
+        let response = await API.userSignup(signup);
+        if(response.IsSuccess){
+
+            // Limpia error, reinicia formulario y cambia a vista de login
+            setError('');
+            setSignup(signupInitialValues);
+            toggleAccount('login');
+        }
+        else{
+
+            setError('Algo salió mal, intentelo nuevamente mas tarde');
+
+        }
+    };
     //retorno del componente
     return(
         <Fondo>
@@ -143,7 +173,10 @@ const Login = () => {
                     <TextField variant='standard' name='UserName' label='Nombre de usuario' onChange={(e)=>onInputChange(e)} />
                     <TextField variant='standard' name='Name' label='Nombre' onChange={(e)=>onInputChange(e)} />
                     <TextField variant='standard' name='Password' label='Contraseña' onChange={(e)=>onInputChange(e)} />
-                    <SingUpButton variant='contained'>Registrarse</SingUpButton>
+                         {/* Mensaje de error */}
+                    {error && <Error>{error}</Error>}
+
+                    <SingUpButton variant='contained' onClick={() => SignUpUser()}>Registrarse</SingUpButton>
                     {/* Botón para volver a la vista de login */}
                     <LoginButton onClick={() => toggleSingUp()} variant='outlined'>Ya tengo una cuenta</LoginButton>
                 </Wrapper>
