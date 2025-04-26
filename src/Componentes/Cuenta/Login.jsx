@@ -1,5 +1,5 @@
 //imports de React
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 
 //imports UI Material
@@ -8,8 +8,10 @@ import { Box, TextField, Button, styled, Typography } from '@mui/material';
 //imports de assets
 import LoginImage from '../../assets/Logo-nobg.png';
 
-//import de la API para hacer peticiones al backend
-import { API } from '../../Servicio/api.js';
+//imports de servicios y contexto
+import { API } from '../../Servicio/api.js';    // Módulo que contiene funciones para interactuar con el backend
+import { DataContext } from '../../contexto/DataProvider.js';   // Contexto global para almacenar datos del usuario
+import { useNavigate } from 'react-router-dom';     // Hook para redirigir programáticamente
 
 const Fondo = styled(Box)`
  background: linear-gradient(135deg, #6e44ff, #b892ff); // degradado púrpura moderno
@@ -94,6 +96,19 @@ const signupInitialValues = {
     password: '',   //contraseña
 }
 
+//---------------------------------------------
+// Valores iniciales para el formulario de inicio de sesion (login)
+//---------------------------------------------
+
+const loginInitialValues = {
+    username: '',   //nombre de usuario
+    password: ''    //contraseña
+}
+
+//---------------------------------------------
+// Componente principal
+//---------------------------------------------
+
 const Login = () => {
 
     // Estado para alternar entre las vistas "login" y "signup"
@@ -106,7 +121,13 @@ const Login = () => {
     // Estado para mostrar errores en pantalla
     const [error, setError] = useState('');
 
-    
+    // Estado para almacenar los datos del formulario de inicio de sesion
+    const [login, setLogin] = useState(loginInitialValues);
+
+    const { setAccount } = useContext(DataContext); // actualiza el contexto global de la app
+
+    const Navigate = useNavigate(); // para redireccionamiento del usuario
+
      // Función que alterna entre la vista de login y registro
     const toggleSingUp = () => {
         // Si ya está en la vista de registro, se vuelve al login; si no, cambia a signup
@@ -140,7 +161,39 @@ const Login = () => {
 
         }
     };
-    //retorno del componente
+
+    const onValueChange = (e) =>{
+        setLogin({...login, [e.target.name]: e.target.value});
+    }
+
+    // Función que se ejecuta al hacer clic en el botón de inicio de sesion
+    // Envía los datos del formulario de inicio al backend
+    const loginUser = async () =>{
+        let response = await API.userLogin(login);
+
+        if(response.IsSuccess){
+
+            // Limpia error, reinicia formulario y cambia a vista de login
+            setError('');
+            setLogin(loginInitialValues);
+
+            console.log("Datos del login:", response.data); //Console.log para depuracion
+            // Guarda tokens en sessionStorage y redirige al home
+            sessionStorage.setItem('TokenAccess', `Bearer ${response.data.TokenAccess}`);
+            sessionStorage.setItem('RefreshToken', `Bearer ${response.data.RefreshToken}`);
+
+            // Actualiza el contexto global con los datos del usuario autenticado
+            setAccount({ username: response.data.username, name: response.data.name })
+
+            Navigate('/Home'); // redirige a la página principal
+        }
+        else{
+
+            setError('Algo salió mal, intentelo nuevamente mas tarde');
+        }
+    }
+
+    //render del componente
     return(
         <Fondo>
         <Componente>
@@ -156,9 +209,12 @@ const Login = () => {
                     <Typography  variant="h5" align="center" fontWeight="bold">
                         Iniciar sesion
                     </Typography>
-                    <TextField variant='standard' label='Nombre de usuario' />
-                    <TextField variant='standard' label='Contraseña' />
-                    <LoginButton variant='contained'>Iniciar Sesión</LoginButton>
+                    <TextField variant='standard' value={login.username} onChange={(e) => onValueChange(e)} name='username' label='Nombre de usuario' />
+                    <TextField variant='standard' value={login.password} onChange={(e) => onValueChange(e)} name='password' label='Contraseña' />
+                    {/* Mensaje de error */}
+                    {error && <Error>{error}</Error>}
+                    
+                    <LoginButton variant='contained' onClick={() => loginUser()}>Iniciar Sesión</LoginButton>
                     {/* Botón para cambiar a la vista de registro */}
                     <SingUpButton onClick={() => toggleSingUp()} variant='outlined'>Crear una Cuenta</SingUpButton>
                 </Wrapper>
