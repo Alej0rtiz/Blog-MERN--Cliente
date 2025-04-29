@@ -14,23 +14,23 @@ import { DataContext } from '../../contexto/DataProvider.js';   // Contexto glob
 import { useNavigate } from 'react-router-dom';     // Hook para redirigir programáticamente
 
 const Fondo = styled(Box)`
- background: linear-gradient(135deg, #6e44ff, #b892ff); // degradado púrpura moderno
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: linear-gradient(135deg, #6e44ff, #b892ff); // degradado púrpura moderno
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 `;
 
 
 //Elementos estilizados
 const Componente = styled(Box)`
-    width: 400px;
-  margin: auto;
-  padding: 20px;
-  background-color: rgba(204, 205, 220, 0.59);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        width: 400px;
+        margin: auto;
+        padding: 20px;
+        background-color: rgba(204, 205, 220, 0.59);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 `;
 
 const Imagen = styled('img')({
@@ -67,7 +67,7 @@ const LoginButton = styled(Button)`
 `;
 
 const SingUpButton = styled(Button)`
-   text-transform: none;
+    text-transform: none;
     background:rgb(5, 104, 254); /* Verde */
     color: white;
     height: 48px;
