@@ -2,7 +2,7 @@
 import { useState, useContext } from 'react';
 
 
-//imports UI Material
+//imports Material UI
 import { Box, TextField, Button, styled, Typography } from '@mui/material';
 
 //imports de assets
@@ -109,7 +109,7 @@ const loginInitialValues = {
 // Componente principal
 //---------------------------------------------
 
-const Login = () => {
+const Login = ({ isUserAuthenticated }) => {
 
     // Estado para alternar entre las vistas "login" y "signup"
     const [account, toggleAccount] = useState('login');
@@ -162,6 +162,7 @@ const Login = () => {
         }
     };
 
+    // Función que maneja los cambios de valores en los campos del formulario de login
     const onValueChange = (e) =>{
         setLogin({...login, [e.target.name]: e.target.value});
     }
@@ -178,12 +179,16 @@ const Login = () => {
             setLogin(loginInitialValues);
 
             console.log("Datos del login:", response.data); //Console.log para depuracion
+
             // Guarda tokens en sessionStorage y redirige al home
             sessionStorage.setItem('TokenAccess', `Bearer ${response.data.TokenAccess}`);
             sessionStorage.setItem('RefreshToken', `Bearer ${response.data.RefreshToken}`);
 
             // Actualiza el contexto global con los datos del usuario autenticado
             setAccount({ username: response.data.username, name: response.data.name })
+
+            // Indica que el usuario está autenticado y redirige a la página de inicio
+            isUserAuthenticated(true);
 
             Navigate('/Home'); // redirige a la página principal
         }
