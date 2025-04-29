@@ -1,5 +1,5 @@
 //imports Material UI
-import { AppBar, Toolbar, styled, Typography } from "@mui/material";
+import { AppBar, Toolbar, styled } from "@mui/material";
 
 //
 import { Link } from 'react-router-dom';
@@ -28,7 +28,7 @@ const Header = () =>{
         <Component>
             <Container>
                 
-                <Link to={'/Home'}>Inicio</Link>
+                <Link to={'/'}>Inicio</Link>
                 <Link to={'/Profile'}>Perfil</Link>
                 <Link to={'/Login'}>Cerrar sesion</Link>
 

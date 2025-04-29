@@ -4,9 +4,13 @@ import { Button, Table, TableHead, TableRow, TableCell, TableBody, styled } from
 //import de datos de las categorias
 import { Categories } from "../../constantes/data"
 
+import { Link, useSearchParams } from "react-router-dom"
+
 //---------------------------------------------
 // Estilos personalizados con styled-components
 //---------------------------------------------
+
+//mejora en los estilos pendiente
 const Tabla = styled(Table)`
 
     margin-top: 20px;
@@ -51,28 +55,40 @@ const CrearButton = styled(Button)`
 
 const Categorias = () => {
 
+    // Hook para leer parámetros de la URL
+    const [searchParams] = useSearchParams();
+    const category = searchParams.get('category'); // Obtiene la categoría actual (si existe)
+
     return(
 
         <>
             {/* Botón para crear una nueva entrada */}
+            <Link to={`/create?category=${category || ''}`}>
             <CrearButton variant="contained">Crear una entrada</CrearButton>
+            </Link>
 
             {/* Tabla que muestra todas las categorías disponibles */}
             <Tabla>
                 {/* Encabezado de la tabla */}
                 <TableHead>
                     <TableRow>
-                        <TableCell>Todas las categorias</TableCell>
+                        <TableCell>
+                            <Link to={'/'}>Todas las categorias</Link>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
-                 {/* Itera sobre las categorías y crea una fila por cada una */}
+
+                {/* Cuerpo de la tabla: muestra cada categoría */}
+                {/* Itera sobre las categorías y crea una fila por cada una */}
                 <TableBody>
                     {
-                        Categories.map(Category => (
+                        Categories.map(category => (
 
-                            <TableRow key={Category.id}>
+                            <TableRow key={category.id}>
                                 <TableCell>
-                                    {Category.type}
+                                <Link to={`/?category=${category.type}`}>
+                                    {category.type}
+                                </Link>
                                 </TableCell>
                             </TableRow>
                         ))
@@ -84,5 +100,5 @@ const Categorias = () => {
     )
 }
 
-//export del componente
+//export del componente para su uso externo
 export default Categorias;

@@ -11,6 +11,7 @@ import { Navigate } from 'react-router-dom';
 import Login from './Componentes/Cuenta/Login';
 import Home from './Componentes/inicio/home';
 import Header from './Componentes/Cabecera/header';
+import CreatePost from './Componentes/Crear/crearPost';
 
 
 //---------------------------------------------
@@ -21,8 +22,8 @@ const RutaPrivada = ({ isAuthenticated, ...props }) =>{
   return(
     isAuthenticated ? 
     <>
-      <Header />
-      <Outlet />
+      <Header />  {/* Cabecera común para rutas privadas */}
+      <Outlet />  {/* Renderiza el componente hijo correspondiente */}
     </>
 
     :
@@ -50,12 +51,16 @@ function App() {
               <Routes>
                 {/* Ruta para el componente de inicio de sesión */}
                 <Route path = '/Login' element = {<Login isUserAuthenticated={isUserAuthenticated} />} />
-
-                  <Route path='/' element = {<RutaPrivada isAuthenticated = {isAuthenticated} />}>
-                    {/* Ruta para el componente principal luego del inicio de sesión */}
-                    <Route path = '/Home' element = {<Home />} />
-                  </Route>
-
+                
+                {/* Rutas privadas protegidas */}
+                <Route path='/' element={<RutaPrivada isAuthenticated={isAuthenticated} />}>
+                  {/* Página principal (home) */}
+                  <Route index element={<Home />} /> {/* ruta raiz o /?category=... */}
+                  {/* Página de inicio explícita */}
+                  <Route path='home' element={<Home />} /> {/* /home */}
+                  {/* Página para crear una entrada */}
+                  <Route path='create' element={<CreatePost />} /> {/* /create?category=... */}
+                </Route>
               </Routes>
             </div>
           </BrowserRouter>
@@ -65,3 +70,18 @@ function App() {
 
 //export del componente principal
 export default App;
+
+
+/*
+<Route path='/' element = {<RutaPrivada isAuthenticated = {isAuthenticated} />}>
+                  
+                  <Route path = '/' element = {<Home />} />
+                </Route>
+
+                <Route path='/Create' element = {<RutaPrivada isAuthenticated = {isAuthenticated} />}>
+                  
+                  <Route path = '/Create' element = {<CreatePost />} />
+</Route>
+
+por si app.js da errores al renderizar partes relacionadas a las categorias, hacer revision de esta seccion, gracias
+*/

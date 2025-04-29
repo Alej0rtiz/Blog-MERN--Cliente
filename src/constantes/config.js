@@ -31,5 +31,6 @@ export const API_NOTIFICATION_MESSAGES = {
 export const SERVICE_URLS = {
     //formato = Ruta relativa del endpoint y Método HTTP para esta petición
     userSignup: {url: '/signup', method: 'POST'}, //Endpoint para registrar un nuevo usuario
-    userLogin: {url: '/login', method: 'POST'},   //Endpoint para inisio de sesion de usuario
+    userLogin: {url: '/login', method: 'POST'},   //Endpoint para inicio de sesion de usuario
+    uploadFile: {url: '/file/upload', method: 'POST'}, //endpoint para la subida de archivos 
 }
