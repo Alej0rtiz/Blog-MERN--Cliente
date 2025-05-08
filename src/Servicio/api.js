@@ -13,7 +13,8 @@ const axiosInstance = axios.create({
     baseURL: API_URL,
     timeout: 10000, // tiempo máximo de espera de 10 segundos
     headers: {
-        'Content-Type': 'application/json', // se espera enviar y recibir JSON
+        "Accept": "application/json, multipart/form-data",
+        //'Content-Type': 'application/json', // se espera enviar y recibir JSON
     },
 });
 
