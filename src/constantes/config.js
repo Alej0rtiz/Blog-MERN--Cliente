@@ -33,4 +33,5 @@ export const SERVICE_URLS = {
     userSignup: {url: '/signup', method: 'POST'}, //Endpoint para registrar un nuevo usuario
     userLogin: {url: '/login', method: 'POST'},   //Endpoint para inicio de sesion de usuario
     uploadFile: {url: '/file/upload', method: 'POST'}, //endpoint para la subida de archivos 
+    createPost: {url: 'create', method: 'POST'}, //endpoint para la creación de un nuevo post
 }

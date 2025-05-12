@@ -6,10 +6,10 @@
 //sujeto a cambios relacionados al backend
 
 export const Categories = [
-    {id: 1, type: 'tipo1'},
-    {id: 2, type: 'tipo2'},
-    {id: 3, type: 'tipo3'},
-    {id: 4, type: 'tipo4'},
-    {id: 5, type: 'tipo5'},
-    {id: 6, type: 'tipo6'}
+    {id: 1, type: 'Desarrollo Web'},
+    {id: 2, type: 'Simulación 3D'},
+    {id: 3, type: 'Inteligencia Artificial'},
+    {id: 4, type: 'Modelado Computacional'},
+    {id: 5, type: 'Dudas y ayudas'},
+    {id: 6, type: 'Discusiones'}
 ];

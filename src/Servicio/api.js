@@ -4,6 +4,9 @@ import axios from 'axios';
 //imports de mensajes de error y rutas de servicio desde la configuración del proyecto
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from '../constantes/config';
 
+// Import de funciones para obtener el token de acceso y el usuario autenticado
+import { getTokenAccess } from '../utilidades/common';
+
 // URL base del servidor backend
 const API_URL = 'http://localhost:8000'; 
 
@@ -96,6 +99,10 @@ for (const [key, value] of Object.entries(SERVICE_URLS)) {
             url: value.url,         // ruta relativa del endpoint (ej, para signup: '/signup')
             data: body,             // cuerpo de la petición (datos enviados)
             responseType: value.responseType,   // tipo de respuesta esperada (json)
+
+            headers: {
+                authorization: getTokenAccess(), // token de acceso para autenticación
+            },
 
             // Callback para mostrar progreso de subida (si aplica)
             onUploadProgress: (progressEvent) => {
