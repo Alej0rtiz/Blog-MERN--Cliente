@@ -12,6 +12,7 @@ import Login from './Componentes/Cuenta/Login';
 import Home from './Componentes/inicio/home';
 import Header from './Componentes/Cabecera/header';
 import CreatePost from './Componentes/Crear/crearPost';
+import PostDetallado from './Componentes/Detalles/PostDetallado';
 
 
 //---------------------------------------------
@@ -60,6 +61,7 @@ function App() {
                   <Route path='home' element={<Home />} /> {/* /home */}
                   {/* Página para crear una entrada */}
                   <Route path='create' element={<CreatePost />} /> {/* /create?category=... */}
+                  <Route path='details/:id' element={<PostDetallado />} /> {/* /details/... */}
                 </Route>
               </Routes>
             </div>

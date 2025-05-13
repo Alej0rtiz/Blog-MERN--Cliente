@@ -77,7 +77,10 @@ const CreatePost = () => {
         getImage();
         
         // Se actualizan campos relacionados al usuario y categoría
-        post.categories = location.search?.split('=')[1] || 'All';
+
+        const queryCategory = location.search?.split('=')[1] || 'All';
+
+        post.categories = decodeURIComponent(queryCategory); // Decodifica la categoría de la URL para evitar problemas con caracteres especiales
         post.username = account.username;
     }, [file]);
 

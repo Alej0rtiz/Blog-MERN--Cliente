@@ -1,30 +1,48 @@
 // Componente funcional Home que representa la vista principal tras el inicio de sesión
 
 //imports de Material UI
-import { Grid } from "@mui/material"
+import { Grid, Box, styled } from "@mui/material"
 
 //import de componentes
 import Banner from "../Banner/banner"
 import Categorias from "./categories"
+import Recomendaciones from "./recomendaciones"
+import Posts from "./publicaciones/posts"
+
+//---------------------------------------------
+// Estilos personalizados con styled-components
+//---------------------------------------------
+
+const Background = styled(Box)({
+    minHeight: '100vh',
+    background: 'linear-gradient(to bottom, #0f172a, #1e293b)',
+    color: 'white',
+});
+
 
 const Home = () => {
     return(
-            <>
-            {/* Banner superior de la página */}
+        <Background>
             <Banner />
-            {/* Contenedor principal que organiza el layout en un grid */}
-            <Grid container>
-                {/* Sección lateral de categorías */}
-                <Grid item lg={2} sm={2} xs={12}>
+
+                {/* Grid principal estilo Holy Grail */}
+                <Grid container spacing={2}>
+                    {/* Categorías - izquierda */}
+                    <Grid item xs={12} sm={3} md={2}>
                     <Categorias />
                 </Grid>
-                {/* Sección principal donde se mostrarán las publicaciones */}
-                <Grid container item xs={12} sm={10} lg={10}>
-                    {/* Aquí se renderizarán los posts */}
-                    Posts
+
+                {/* Posts - centro */}
+                <Grid item xs={12} sm={6} md={8}>
+                    <Posts />
                 </Grid>
-            </Grid>
-            </>
+
+                {/* Recomendaciones - derecha */}
+                <Grid item xs={12} sm={3} md={2}>
+                    <Recomendaciones />
+                </Grid>
+                </Grid>
+        </Background>
     )
 }
 

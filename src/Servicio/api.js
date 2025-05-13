@@ -5,7 +5,7 @@ import axios from 'axios';
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from '../constantes/config';
 
 // Import de funciones para obtener el token de acceso y el usuario autenticado
-import { getTokenAccess } from '../utilidades/common';
+import { getTokenAccess, getType } from '../utilidades/common';
 
 // URL base del servidor backend
 const API_URL = 'http://localhost:8000'; 
@@ -26,6 +26,16 @@ const axiosInstance = axios.create({
 // Se ejecuta antes de que una petición sea enviada
 axiosInstance.interceptors.request.use(
     function (config) {
+
+        if (config.TYPE.params) {
+            
+            config.params = config.TYPE.params; //si el endpoint requiere parámetros, se añaden a la configuración
+        
+        }else if (config.TYPE.query) {
+
+            config.url = config.url + "/" + config.TYPE.query; //si el endpoint requiere query, se añade a la configuración
+
+        }
         //abierto a poder añadir cabeceras de autenticación u otros cambios globales
         return config;
     },
@@ -103,6 +113,8 @@ for (const [key, value] of Object.entries(SERVICE_URLS)) {
             headers: {
                 authorization: getTokenAccess(), // token de acceso para autenticación
             },
+
+            TYPE: getType(value, body),
 
             // Callback para mostrar progreso de subida (si aplica)
             onUploadProgress: (progressEvent) => {
