@@ -2,7 +2,7 @@
 import { Box, Typography, styled } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 // import del servicio del API
 import { API } from "../../Servicio/api.js";
 //import del contexto para mostrar las opciones de edicion y eliminación solo a usuarios debidos
@@ -59,19 +59,42 @@ const PostContent = styled(Typography)(({ theme }) => ({
     wordBreak: "break-word"
 }));
 
+const IconLink = styled(Link)(({ theme }) => ({
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    background: "transparent",
+    textDecoration: "none",
+    border: "none",
+    cursor: "pointer",
+    margin: "0 5px",
+    padding: "6px",
+    borderRadius: "6px",
+    transition: "background 0.2s ease",
+
+    "&:hover": {
+        background: "rgba(255, 255, 255, 0.08)", //sutil y visible
+    },
+}));
+
 const EditIcon = styled(Edit)`
 
-    margin: 5px;
     color: white;
+    flexDirection: row;
 
 `
 
 const DeleteIcon = styled(Delete)`
-
-    margin: 5px;
     color: white;
+    flex-direction: row;
+    transition: color 0.2s ease;
 
-`
+    &:hover {
+    color: #fa8072;
+    }
+`;
 
 
 //componente principal
@@ -87,6 +110,10 @@ const PostDetallado = () =>{
     // Obtiene los datos del usuario autenticado desde el contexto
     const { account } = useContext(DataContext);
 
+    //navigación entre rutas
+    // Hook para la navegación entre rutas
+    const navigate = useNavigate();
+
     // Hook useEffect para obtener los datos del post desde la API al cargar el componente
     useEffect(() => {
 
@@ -94,15 +121,28 @@ const PostDetallado = () =>{
             
                 let response = await API.getPostById(id);
 
-                if (response.IsSuccess){
+                if (response.IsSuccess) {
 
                     setPost(response.data);
 
+                } else {
+                    console.error("Error al obtener el post:", response.message);
                 }
-            
+
         }
         fetchData()
     }, []) // Dependencias vacías: solo se ejecuta al montar el componente (sujeto a cambios)
+
+    //función para eliminar el post actual
+    const deletePost = async () => {
+
+        let response = await API.deletePost(post._id);
+
+        if (response.IsSuccess) {
+            navigate('/'); // Redirige a la página principal después de eliminar
+        }
+    }
+
 
     return(
 
@@ -118,8 +158,12 @@ const PostDetallado = () =>{
 
                     <>
                     {/* Pendiente estilizacion y funcionalidades + componente de actualizacion de post */}
-                        <EditIcon />
-                        <DeleteIcon />
+                        <IconLink to={`/edit/${post._id}`}>
+                            <EditIcon />
+                        </IconLink>
+                        <IconLink>
+                            <DeleteIcon onClick={() => deletePost()} />
+                        </IconLink>
                     </>
                 }
 

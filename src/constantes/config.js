@@ -36,4 +36,6 @@ export const SERVICE_URLS = {
     createPost: {url: 'create', method: 'POST'}, //endpoint para la creación de un nuevo post
     getAllPosts: {url: '/posts', method: 'GET', params: true}, //endpoint para obtener todos los posts, con params
     getPostById: {url: 'post', method: 'GET', query: true}, //endpoint para obtener un post por su id, con query
+    updatePost: {url: 'update', method: 'PUT', query: true}, //endpoint para actualizar un post por su id, con query
+    deletePost: {url: 'delete', method: 'DELETE', query: true} //endpoint para eliminar un post por su id, con query
 }

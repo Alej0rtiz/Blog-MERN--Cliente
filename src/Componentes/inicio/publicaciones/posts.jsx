@@ -38,19 +38,22 @@ const Posts = () =>{
     }, [category])// Se vuelve a ejecutar si cambia la categoría
     
     // Renderizado del componente
+    // Cada publicación se envuelve en un Link para ver detalles
+    // Si no hay datos, se muestra un mensaje de error centrado
+    //con links que llevan a la vista individual de cada post
     return(
 
         <>
 
         {
             posts && posts.length > 0 ? posts.map(post => (
-                // Cada publicación se envuelve en un Link para ver detalles
-                <Link to={`/details/${post._id}`} style={{textDecoration: "none", color: "inherit"}}>//link para llevar a la vista individual y detallada de un post
+                
+                <Link to={`/details/${post._id}`} style={{textDecoration: "none", color: "inherit"}}>
                     <Post post={post} />
                 </Link>
 
             )): (
-                // Si no hay datos, se muestra un mensaje de error centrado
+                
                 <Box style={{color: "red", display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
                     Sin datos disponibles
                 </Box>
