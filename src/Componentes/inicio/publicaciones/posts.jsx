@@ -45,7 +45,7 @@ const Posts = () =>{
         {
             posts && posts.length > 0 ? posts.map(post => (
                 // Cada publicación se envuelve en un Link para ver detalles
-                <Link to={`details/${post._id}`} style={{textDecoration: "none", color: "inherit"}}>
+                <Link to={`/details/${post._id}`} style={{textDecoration: "none", color: "inherit"}}>//link para llevar a la vista individual y detallada de un post
                     <Post post={post} />
                 </Link>
 

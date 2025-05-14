@@ -47,7 +47,7 @@ function App() {
         <DataProvider>
           {/* Define el enrutamiento de la aplicación */}
           <BrowserRouter>
-            <div style={{marginTop : 0}}>
+            <div style={{ paddingTop: '64px', backgroundColor: '#0f172a', minHeight: '100vh' }}>
               {/*Rutas*/}
               <Routes>
                 {/* Ruta para el componente de inicio de sesión */}
