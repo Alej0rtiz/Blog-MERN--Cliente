@@ -13,7 +13,7 @@ import Home from './Componentes/inicio/home';
 import Header from './Componentes/Cabecera/header';
 import CreatePost from './Componentes/Crear/crearPost';
 import PostDetallado from './Componentes/Detalles/PostDetallado';
-
+import EditPost from './Componentes/Crear/editarPost';
 
 //---------------------------------------------
 // Componente de ruta privada que protege las rutas que requieren autenticación
@@ -62,6 +62,8 @@ function App() {
                   {/* Página para crear una entrada */}
                   <Route path='create' element={<CreatePost />} /> {/* /create?category=... */}
                   <Route path='details/:id' element={<PostDetallado />} /> {/* /details/... */}
+
+                  <Route path='edit/:id' element={<EditPost />} /> {/* /create?category=... */}
                 </Route>
               </Routes>
             </div>
