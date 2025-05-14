@@ -46,5 +46,5 @@ const Home = () => {
     )
 }
 
-//export del componente para su uso en el enrutamiento o en otros componentes
-export default Home
+// Export del componente para su uso en el enrutamiento o en otros componentes
+export default Home;

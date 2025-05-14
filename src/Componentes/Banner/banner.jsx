@@ -1,4 +1,3 @@
-//imports Material UI
 import { Box, styled, Typography } from '@mui/material';
 
 //---------------------------------------------
@@ -69,10 +68,9 @@ const SubTitle = styled(Typography)`
     }
 `
 
-//render del componente
+// Render del componente
 const Banner = () => {
-
-    return(
+    return (
         <Hero>
             <HeroContent>
                 <SubTitle>Bienvenido a DevSim Blog</SubTitle>
@@ -82,5 +80,5 @@ const Banner = () => {
     )
 }
 
-//export del componente
+// Export del componente
 export default Banner;
