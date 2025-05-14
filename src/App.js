@@ -12,6 +12,7 @@ import Login from './Componentes/Cuenta/Login';
 import Home from './Componentes/inicio/home';
 import Header from './Componentes/Cabecera/header';
 import CreatePost from './Componentes/Crear/crearPost';
+import PostDetallado from './Componentes/Detalles/PostDetallado';
 
 
 //---------------------------------------------
@@ -46,7 +47,7 @@ function App() {
         <DataProvider>
           {/* Define el enrutamiento de la aplicación */}
           <BrowserRouter>
-            <div style={{marginTop : 0}}>
+            <div style={{ paddingTop: '64px', backgroundColor: '#0f172a', minHeight: '100vh' }}>
               {/*Rutas*/}
               <Routes>
                 {/* Ruta para el componente de inicio de sesión */}
@@ -60,6 +61,7 @@ function App() {
                   <Route path='home' element={<Home />} /> {/* /home */}
                   {/* Página para crear una entrada */}
                   <Route path='create' element={<CreatePost />} /> {/* /create?category=... */}
+                  <Route path='details/:id' element={<PostDetallado />} /> {/* /details/... */}
                 </Route>
               </Routes>
             </div>

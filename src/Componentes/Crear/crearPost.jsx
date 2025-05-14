@@ -35,7 +35,7 @@ const PostInitVals = {
 
 }
 
-
+//componente principal
 const CreatePost = () => {
 
     const location = useLocation();  // Obtiene la categoría desde la URL
@@ -46,7 +46,9 @@ const CreatePost = () => {
     const { account } = useContext(DataContext);    // Usuario autenticado
 
 
-    const defaultImage = require('../../assets/default-post-img.png');
+    const defaultImage = require('../../assets/default-post-img.png');// Imagen por defecto para el post
+
+    const navigate = useNavigate(); // Navegación entre rutas
 
     //pendiente, muestra de subida de imagen, idealmente, usar un img en el retorno del componente, posiblemente poder mostrar una por defecto o en blanco, como aquella subida
     // URL de la imagen cargada (puede servir para mostrarla en un preview)
@@ -66,7 +68,7 @@ const CreatePost = () => {
                     //llamado al API
                 // Subida del archivo a través del API
                 const response = await API.uploadFile(data);
-                post.picture = response.data;
+                post.picture = response.data.url;
                 } catch (error) {
                     console.error("Error en la carga de archivo:", error);
                 }
@@ -75,7 +77,10 @@ const CreatePost = () => {
         getImage();
         
         // Se actualizan campos relacionados al usuario y categoría
-        post.categories = location.search?.split('=')[1] || 'All';
+
+        const queryCategory = location.search?.split('=')[1] || 'All';
+
+        post.categories = decodeURIComponent(queryCategory); // Decodifica la categoría de la URL para evitar problemas con caracteres especiales
         post.username = account.username;
     }, [file]);
 
@@ -83,6 +88,18 @@ const CreatePost = () => {
     const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value })
 }
+
+    const savePost = async () => {
+
+        let response = await API.createPost(post);//llamado al API para el guardado
+            navigate('/'); // Redirige a la página principal después de crear el post
+
+    }
+
+        // =========================
+        // RENDERIZADO DEL FORMULARIO
+        // =========================
+
 
     return(
         <Box sx={{ paddingTop: '80px', paddingX: '20px' }}>
@@ -102,12 +119,12 @@ const CreatePost = () => {
 
                 {/* Campo para el título del post */}
                 <InputBase placeholder="Titulo del post" onChange={(e) => handleChange(e)} name="title"/>
-                
-                 {/* Botón de publicar (funcionalidad pendiente de implementar) */}
-                <Button variant="contained">Publicar</Button>
 
                 {/* Área de texto para la descripción del post */}
                 <TextareaAutosize minRows={5} placeholder="Comparte tu trabajo..." onChange={(e) => handleChange(e)} name="description"/>
+                
+                 {/* Botón de publicar el post */}
+                <Button variant="contained" onClick={() => savePost()}>Publicar</Button>
 
             </FormControl>
         </Box>
