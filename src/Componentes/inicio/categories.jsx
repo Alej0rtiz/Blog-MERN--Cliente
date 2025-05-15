@@ -1,5 +1,5 @@
 //imports de Material UI
-import { Button, Table, TableHead, TableRow, TableCell, TableBody, styled } from "@mui/material"
+import { Button, styled, Box, Typography } from "@mui/material"
 
 //import de datos de las categorias
 import { Categories } from "../../constantes/data"
@@ -10,48 +10,97 @@ import { Link, useSearchParams } from "react-router-dom"
 // Estilos personalizados con styled-components
 //---------------------------------------------
 
-//mejora en los estilos pendiente
-const Tabla = styled(Table)`
-
-    margin-top: 20px;
-    min-width: 80%;
-    background-color: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0px 4px 12px rgba(110, 68, 255, 0.2);   
+const GlassContainer = styled(Box)(({ theme }) => ({
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(16px) saturate(180%)",
+    WebkitBackdropFilter: "blur(16px) saturate(180%)",
+    border: "1px solid rgba(255, 255, 255, 0.2)",
+    borderRadius: "1rem",
+    padding: theme.spacing(4),
+    color: "#f1f5f9",
+    margin: theme.spacing(4, 0),
+    boxSizing: "border-box",
+    minHeight: "75vh",
+    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
     
-    th {
-    background: linear-gradient(90deg, #4b0081, #650099, #7f00b2);
-    color: #f5f5f5;
-    font-weight: bold;
-    font-size: 1.1rem;
-    }
+}));
 
-    td {
-    font-size: 1rem;
-    color: #333333;
-    }
+const StyledList = styled("ul")({
+    listStyle: "none",
+    padding: 0,
+    margin: 0,
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+});
 
-    tr:nth-of-type(even) {
-    background-color: #f7f7f7; /* gris muy claro para filas pares */
-    }
+const StyledLink = styled(Link)({
+    color: "#f1f5f9",
+    textDecoration: "none",
+    fontWeight: 400,
+    fontSize: "1rem",
+    position: "relative",
+    transition: "all 0.2s ease",
 
-    tr:hover {
-    background-color: #e0d7ff; /* leve morado claro al hacer hover */
-    }
-`;
+    "&::after": {
+    content: '""',
+    position: "absolute",
+    bottom: 0,
+    left: "50%",
+    width: 0,
+    height: "2px",
+    backgroundColor: "#24fb6f", // un amarillo anaranjado visible y elegante
+    transition: "width 0.3s ease, left 0.3s ease",
+    },
 
-const CrearButton = styled(Button)`
-    background:  #6e44ff;
-    color: #ffffff;
-    font-weight: bold;
-    text-transform: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 8px rgba(110, 68, 255, 0.3);
-    transition: 0.1s ease;
-`;
+    "&:hover": {
+        color: "#24fb6f",
+    },
+
+    "&:hover::after": {
+    width: "100%",
+    left: 0,
+    },
+});
+
+const CrearButton = styled(Button)(({ theme }) => ({
+    marginTop: "2rem",
+    width: "100%",
+    position: "relative",
+    overflow: "hidden", // importante para ocultar el gradiente fuera del botón
+    backgroundColor: "#3b82f6",
+    color: "#fff",
+    fontWeight: "bold",
+    textTransform: "none",
+    padding: "12px 0",
+    borderRadius: "1rem",
+    boxShadow: "0 6px 15px rgba(59, 130, 246, 0.6)",
+    transition: "transform 0.5s ease, box-shadow 0.5s ease",
+    zIndex: 0,
+
+    "&::before": {
+    content: '""',
+    position: "absolute",
+    width: "150%",
+    height: "150%",
+    background: "linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent)",
+    top: "-120%",
+    left: "-150%",
+    transition: "all 0.5s ease",
+    zIndex: -1,
+    borderRadius: "1rem",
+    },
+
+    "&:hover": {
+    transform: "scale(1.05) rotate(2deg)",
+    boxShadow: "0 0 20px #3b82f650",
+    },
+
+    "&:hover::before": {
+    top: "100%",
+    left: "100%",
+    },
+}));
 
 const Categorias = () => {
 
@@ -61,41 +110,29 @@ const Categorias = () => {
 
     return(
 
-        <>
+        <GlassContainer>
+
+            <Typography variant="h6" fontWeight="600" mb={3}>
+        Categorías
+            </Typography>
+
+            <StyledList>
+                <li>
+                    <StyledLink to="/">Todas las categorías</StyledLink>
+                </li>
+                {Categories.map((cat) => (
+                    <li key={cat.id}>
+                        <StyledLink to={`/?category=${cat.type}`}>{cat.type}</StyledLink>
+                    </li>
+                ))}
+            </StyledList>
+
+
             {/* Botón para crear una nueva entrada */}
             <Link to={`/create?category=${category || ''}`}>
             <CrearButton variant="contained">Crear una entrada</CrearButton>
             </Link>
-
-            {/* Tabla que muestra todas las categorías disponibles */}
-            <Tabla>
-                {/* Encabezado de la tabla */}
-                <TableHead>
-                    <TableRow>
-                        <TableCell>
-                            <Link to={'/'}>Todas las categorias</Link>
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-
-                {/* Cuerpo de la tabla: muestra cada categoría */}
-                {/* Itera sobre las categorías y crea una fila por cada una */}
-                <TableBody>
-                    {
-                        Categories.map(category => (
-
-                            <TableRow key={category.id}>
-                                <TableCell>
-                                <Link to={`/?category=${category.type}`}>
-                                    {category.type}
-                                </Link>
-                                </TableCell>
-                            </TableRow>
-                        ))
-                    }
-                </TableBody>
-            </Tabla>
-        </>
+        </GlassContainer>
 
     )
 }
