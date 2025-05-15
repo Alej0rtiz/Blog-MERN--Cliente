@@ -10,12 +10,12 @@ import { addEllipsis } from "../../../utilidades/common";
 // Contenedor principal para cada publicación
 const PostContainer = styled(Box)(({ theme }) => ({
 
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
     backdropFilter: "blur(16px) saturate(180%)",
     WebkitBackdropFilter: "blur(16px) saturate(180%)",
     border: "1px solid rgba(255, 255, 255, 0.2)",
     borderRadius: "1rem",
-    margin: "32px 22px",
+    margin: theme.spacing(4, 0),
     boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
     padding: theme.spacing(3),
     transition: "all 0.3s ease",

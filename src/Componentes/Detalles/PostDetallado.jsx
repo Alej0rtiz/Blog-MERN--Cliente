@@ -25,6 +25,7 @@ const GlassCard = styled(Box)(({ theme }) => ({
     boxShadow: theme.shadows[6],
     },
     margin: '2rem auto',
+    marginTop: "20vh",
     maxWidth: '850px'
 }));
 

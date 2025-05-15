@@ -19,29 +19,45 @@ const Background = styled(Box)({
     color: 'white',
 });
 
+const MainGrid = styled(Box)(({ theme }) => ({
+    display: 'grid',
+    gridTemplateColumns: '1fr',           
+    gap: theme.spacing(3),                
+    maxWidth: '112rem',                   
+    margin: 'auto',
+    padding: theme.spacing(2, 4),       
+
+    
+    [theme.breakpoints.up('lg')]: {
+    gridTemplateColumns: 'repeat(4, 1fr)', 
+    },
+}));
+
 
 const Home = () => {
     return(
         <Background>
             <Banner />
 
+                <MainGrid>
                 {/* Grid principal estilo Holy Grail */}
-                <Grid container spacing={2}>
+
                     {/* Categorías - izquierda */}
-                    <Grid item xs={12} sm={3} md={2}>
-                    <Categorias />
-                </Grid>
+                    <Box sx={{ gridColumn: { lg: 'span 1' } }}>
+                        <Categorias />
+                    </Box>
 
-                {/* Posts - centro */}
-                <Grid item xs={12} sm={6} md={8}>
-                    <Posts />
-                </Grid>
+                    {/* Posts - centro */}
+                    <Box sx={{ gridColumn: { lg: 'span 2' } }}>
+                        <Posts />
+                    </Box>
 
-                {/* Recomendaciones - derecha */}
-                <Grid item xs={12} sm={3} md={2}>
-                    <Recomendaciones />
-                </Grid>
-                </Grid>
+                    {/* Recomendaciones - derecha */}
+                    <Box sx={{ gridColumn: { lg: 'span 1' } }}>
+                        <Recomendaciones />
+                    </Box>
+
+            </MainGrid>
         </Background>
     )
 }

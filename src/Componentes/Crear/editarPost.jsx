@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext } from "react"; 
 
 //imports Material UI
-import { Box, Button, FormControl, InputBase, TextareaAutosize } from "@mui/material";
+import { Box, Button, FormControl, InputBase, TextareaAutosize, styled, Typography } from "@mui/material";
 import { AddCircle as Add } from '@mui/icons-material';
 
 //imports React Router
@@ -14,12 +14,115 @@ import { DataContext } from "../../contexto/DataProvider";
 //import de API
 import { API } from '../../Servicio/api'
 
+import defaultImage from '../../assets/default-post-img.png';// Imagen por defecto para el post
+
 //---------------------------------------------
 // Estilos personalizados con styled-components
 //---------------------------------------------
 
-//Pendientes
+const Container = styled(Box)(({ theme }) => ({
+    paddingTop: '100px',
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    background: 'linear-gradient(to bottom, #0f172a, #1e293b)',
+    minHeight: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'start',
+}));
 
+const FormCard = styled(Box)(({ theme }) => ({
+    width: '100%',
+    maxWidth: '720px',
+    padding: '32px',
+    marginBottom: "15vh",
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backdropFilter: 'blur(16px) saturate(180%)',
+    WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    borderRadius: '20px',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+    color: '#fff',
+}));
+
+const StyledInput = styled(InputBase)(({ theme }) => ({
+    marginTop: theme.spacing(2),
+    width: '100%',
+    backgroundColor: 'transparent',
+    border: '1px solid #4b5563',
+    borderRadius: '8px',
+    padding: '10px 14px',
+    color: '#fff',
+
+    '& input': {
+        color: '#fff',
+            '&::placeholder': {
+                color: '#cbd5e1',
+                opacity: 1,
+            },
+        },
+}));
+
+const UploadIconWrapper = styled('div')(({ theme }) => ({
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    color: '#f1f5f9',
+    borderRadius: '50%',
+    padding: '8px',
+    transition: 'background 0.3s ease',
+    '&:hover': {
+        backgroundColor: 'rgba(79, 44, 235, 0.27)',
+    },
+}));
+
+const StyledTextarea = styled(TextareaAutosize)(({ theme }) => ({
+    marginTop: theme.spacing(2),
+    maxWidth: '96%',
+    minWidth: '96%',
+    backgroundColor: 'transparent',
+    border: '1px solid #4b5563',
+    borderRadius: '8px',
+    padding: '10px 14px',
+    color: '#fff',
+    fontSize: '1rem',
+    fontFamily: 'inherit',
+
+    '&::placeholder': {
+    color: '#cbd5e1',
+    opacity: 1,
+    },
+}));
+
+const UploadLabel = styled('label')({
+    marginTop: '16px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    }
+);
+
+const StyledButton = styled(Button)({
+    marginTop: '24px',
+    width: '100%',
+    backgroundColor: '#3b82f6',
+    '&:hover': {
+    backgroundColor: '#2563eb',
+    },
+    color: '#fff',
+    padding: '12px',
+    fontWeight: 'bold',
+    borderRadius: '12px',
+});
+
+const ImagePreview = styled('img')({
+    width: '100%',
+    maxHeight: '300px',
+    objectFit: 'cover',
+    borderRadius: '12px',
+    marginBottom: '16px',
+});
 
 //---------------------------------------------
 // Valores iniciales para el formulario de los posts
@@ -45,10 +148,10 @@ const EditPost = () => {
 
     const { account } = useContext(DataContext);    // Usuario autenticado actual
 
-
-    const defaultImage = require('../../assets/default-post-img.png');// Imagen por defecto para el post
-
     const navigate = useNavigate(); // Navegación entre rutas
+
+    // Estado para los errores de validación
+    const [errors, setErrors] = useState({ title: false, description: false });
 
     const { id } = useParams();
 
@@ -105,11 +208,27 @@ const EditPost = () => {
      //funcion Maneja el cambio de los campos del formulario
     const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value })
+
+    // Al escribir, elimina el error de ese campo si existía
+    setErrors(prev => ({ ...prev, [e.target.name]: false }));
 }
+
+    const validate = () => {
+        const newErrors = {
+            title: post.title.trim() === '',
+            description: post.description.trim() === '',
+            };
+
+        setErrors(newErrors);
+        // Retorna true si no hay errores (todos false)
+        return !Object.values(newErrors).some(err => err === true);
+        }
 
     //función para actualizar el post
     // Se encarga de enviar la información del post al API para su actualización
     const updatePost = async () => {
+
+        if (!validate()) return; // Si falla validación, no continuar
 
         let response = await API.updatePost(post);
             navigate(`/details/${id}`); // Redirige a la página principal después de crear el post
@@ -122,32 +241,50 @@ const EditPost = () => {
 
 
     return(
-        <Box sx={{ paddingTop: '80px', paddingX: '20px' }}>
-            {/*Para estilos de la seccion de crear un post*/}
+        <Container>
+            <FormCard>
 
-            <img 
+            <ImagePreview 
                 src={url} 
                 alt="preview" />
 
-            <FormControl>
+            <FormControl fullWidth>
 
-                <label htmlFor="fileInput">
-                    <Add fontSize="large" color="action" />
-                </label>
+                <UploadLabel htmlFor="fileInput">
+                    <UploadIconWrapper>
+                        <Add fontSize="large" sx={{ color: '#f1f5f9' }} />
+                    </UploadIconWrapper>
+                    <span style={{ color: '#f1f5f9', fontSize: '0.9rem', fontWeight: 'normal', cursor: 'Pointer' }}>
+                        Añadir/cambiar imagen
+                    </span>
+                </UploadLabel>
                 {/* Botón de subir archivo (oculto), activado al hacer clic en el ícono */}
-                <input type="file" id="fileInput" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files[0])}/>
+                <input type="file" id="fileInput" style={{ opacity: 0, width: 0, height: 0, position: 'absolute', zIndex: -1, }} onChange={(e) => setFile(e.target.files[0])}/>
 
                 {/* Campo para el título del post */}
-                <InputBase placeholder="Titulo del post" value={post.title} onChange={(e) => handleChange(e)} name="title"/>
+                <StyledInput placeholder="Titulo del post" value={post.title} onChange={(e) => handleChange(e)} name="title"/>
+
+                {errors.title && (
+                    <Typography variant="caption" color="error" sx={{ mt: 0.5, fontWeight: "bold" }}>
+                        ⛔ El titulo es obligatorio
+                    </Typography>
+                )}
 
                 {/* Área de texto para la descripción del post */}
-                <TextareaAutosize minRows={5} placeholder="Comparte tu trabajo..." value={post.description} onChange={(e) => handleChange(e)} name="description"/>
+                <StyledTextarea minRows={5} placeholder="Comparte tu trabajo..." value={post.description} onChange={(e) => handleChange(e)} name="description"/>
                 
-                 {/* Botón de publicar el post */}
-                <Button variant="contained" onClick={() => updatePost()}>Actualizar</Button>
+                {errors.description && (
+                    <Typography variant="caption" color="error" sx={{ mt: 0.5 }}>
+                        ⛔ La descripción es obligatoria
+                    </Typography>
+                )}
 
-            </FormControl>
-        </Box>
+                 {/* Botón de publicar el post */}
+                <StyledButton variant="contained" onClick={() => updatePost()}>Actualizar</StyledButton>
+
+                </FormControl>
+            </FormCard>
+        </Container>
     )
 }
 

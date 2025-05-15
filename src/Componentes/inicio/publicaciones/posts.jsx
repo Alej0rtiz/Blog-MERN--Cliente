@@ -8,6 +8,7 @@ import { useSearchParams, Link } from "react-router-dom";
 import { API } from "../../../Servicio/api.js"
 // Componente para renderizar una publicación individual
 import Post from "./post.jsx";
+import EmptyPosts from './emptyPosts.jsx';
 
 // Componente principal: Posts
 const Posts = () =>{
@@ -54,9 +55,8 @@ const Posts = () =>{
 
             )): (
                 
-                <Box style={{color: "red", display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
-                    Sin datos disponibles
-                </Box>
+                <EmptyPosts/>
+
             )
         }
 
