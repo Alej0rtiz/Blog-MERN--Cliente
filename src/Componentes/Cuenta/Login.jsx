@@ -125,18 +125,34 @@ const Login = ({ isUserAuthenticated }) => {
     // Envía los datos del formulario de registro al backend
     const SignUpUser = async () => {
 
-        let response = await API.userSignup(signup);
-        if(response.IsSuccess){
+        // Validación: no permitir campos vacíos
+        if (!signup.name.trim() || !signup.username.trim() || !signup.password.trim()) {
+        setError('⛔ Por favor, complete todos los campos.');
+        return;
+        }
+
+        try {
+            
+            let response = await API.userSignup(signup);
+            if(response.IsSuccess){
 
             // Limpia error, reinicia formulario y cambia a vista de login
             setError('');
             setSignup(signupInitialValues);
             toggleAccount('login');
+            }
+            else{
+
+            setError(response.message || 'No se pudo crear la cuenta. Intente más tarde.');
+            
+            }} catch (error) {
+
+                if (error.response?.data?.message) {
+            setError(error.response.data.message);
+        } else {
+            setError('Ocurrió un error al registrarse. Intente más tarde.');
         }
-        else{
-
-            setError('Algo salió mal, intentelo nuevamente mas tarde');
-
+        console.error('Error en registro:', error);
         }
     };
 
@@ -148,9 +164,16 @@ const Login = ({ isUserAuthenticated }) => {
     // Función que se ejecuta al hacer clic en el botón de inicio de sesion
     // Envía los datos del formulario de inicio al backend
     const loginUser = async () =>{
-        let response = await API.userLogin(login);
 
-        if(response.IsSuccess){
+        if (!login.username.trim() || !login.password.trim()) {
+        setError('⛔ Por favor, complete todos los campos.');
+        return;
+        }
+
+        try {
+            let response = await API.userLogin(login);
+            
+            if(response.IsSuccess){
 
             // Limpia error, reinicia formulario y cambia a vista de login
             setError('');
@@ -172,8 +195,18 @@ const Login = ({ isUserAuthenticated }) => {
         }
         else{
 
-            setError('Algo salió mal, intentelo nuevamente mas tarde');
+            setError(response.message || 'Credenciales incorrectas');
+        }} catch (error) {
+
+            if (error.response && error.response.data && error.response.data.message){
+
+                setError(error.response.data.message); // "El usuario no existe"
+            }else{
+                setError('⛔ Credenciales incorrectas');
+            }
+            console.error('Error en la respuesta:', error); // depuración
         }
+
     }
 
     //render del componente
@@ -188,8 +221,8 @@ const Login = ({ isUserAuthenticated }) => {
                     
                     //vista de inicio de sesion
                     <Wrapper>
-                    <TextField variant='standard' value={login.username} onChange={(e) => onValueChange(e)} name='username' label='Nombre de usuario' />
-                    <TextField variant='standard' value={login.password} onChange={(e) => onValueChange(e)} name='password' label='Contraseña' />
+                    <TextField variant='standard' required value={login.username} onChange={(e) => onValueChange(e)} name='username' label='Nombre de usuario' />
+                    <TextField variant='standard' required value={login.password} onChange={(e) => onValueChange(e)} name='password' label='Contraseña' />
                     {/* Mensaje de error */}
                     {error && <Error>{error}</Error>}
                     
@@ -202,9 +235,9 @@ const Login = ({ isUserAuthenticated }) => {
 
                 //vista de registro
                 <Wrapper>
-                    <TextField variant='standard' name='name' label='Nombre' onChange={(e)=> onInputChange(e)} />
-                    <TextField variant='standard' name='username' label='Nombre de usuario' onChange={(e)=> onInputChange(e)} />
-                    <TextField variant='standard' name='password' label='Contraseña' onChange={(e)=> onInputChange(e)} />
+                    <TextField variant='standard' name='name' required label='Nombre' onChange={(e)=> onInputChange(e)} />
+                    <TextField variant='standard' name='username' required label='Nombre de usuario' onChange={(e)=> onInputChange(e)} />
+                    <TextField variant='standard' name='password' required label='Contraseña' onChange={(e)=> onInputChange(e)} />
                     
                     {/* Mensaje de error */}
                     {error && <Error>{error}</Error>}
