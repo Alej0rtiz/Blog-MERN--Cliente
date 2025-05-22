@@ -3,6 +3,8 @@ import { Box, Typography, styled } from "@mui/material";
 //usestate para la animación
 import { useState } from "react";
 
+//estilos de la vista
+
 const Container = styled(Box)`
 
     background-color:rgba(233, 182, 73, 0.60);
@@ -54,9 +56,14 @@ const Face = styled(Box)(({ backgroundcolor }) => ({
     backfaceVisibility: "visible",
     borderRadius: "12px",
     background: backgroundcolor || "#646cff",
-    border: "2px solid #242424",
+    border: "2px solid rgb(104, 104, 104)",
     transition: "all 0.3s ease",
     overflow: "hidden",
+    fontSize: "1.1rem",
+    fontWeight: "bold",
+    fontFamily: "'Fira Code', monospace",
+    overflow: "hidden",
+    textAlign: "center",
 
     "&::before": {
     content: '""',
@@ -92,27 +99,27 @@ const Face = styled(Box)(({ backgroundcolor }) => ({
 
 const Front = styled(Face)`
     transform: translateZ(100px);
-    background-color: #646cff;
+    background-color: #1e3a8a;
 `;
 const Back = styled(Face)`
     transform: translateZ(-100px) rotateY(180deg);
-    background-color: #00bcd4;
+    background-color: #9333ea;
 `;
 const Right = styled(Face)`
     transform: translateX(100px) rotateY(90deg);
-    background-color: #4caf50;
+    background-color: #0e7490;
 `;
 const Left = styled(Face)`
     transform: translateX(-100px) rotateY(-90deg);
-    background-color: #ff4081;
+    background-color: #6b21a8;
 `;
 const Top = styled(Face)`
     transform: translateY(-100px) rotateX(90deg);
-    background-color: #ffc107;
+    background-color: #64748b;
 `;
 const Bottom = styled(Face)`
     transform: translateY(100px) rotateX(-90deg);
-    background-color: #9c27b0;
+    background-color: #334155;
 `;
 
 const EmptyPosts = () => {
@@ -132,12 +139,12 @@ const EmptyPosts = () => {
         </h2>
 
         <BoxCard active={active} onClick={handleClick}>
-        <Front>🌟</Front>
-        <Back>🧠</Back>
-        <Right>🎉</Right>
-        <Left>💡</Left>
-        <Top>📢</Top>
-        <Bottom>⚙️</Bottom>
+        <Front>⚙️ Simulación</Front>
+        <Back>🧪 Experimentos</Back>
+        <Right>💻 Proyectos</Right>
+        <Left>💡 Ideas</Left>
+        <Top>📢 Comunidad</Top>
+        <Bottom>🧩 Creaciones</Bottom>
         </BoxCard>
         
         <Typography
