@@ -196,13 +196,6 @@ const EditPost = () => {
             }
         }
         getImage();
-        
-        // Se actualizan campos relacionados al usuario y categoría
-
-        const queryCategory = location.search?.split('=')[1] || 'All';
-
-        post.categories = decodeURIComponent(queryCategory); // Decodifica la categoría de la URL para evitar problemas con caracteres especiales
-        post.username = account.username;
     }, [file]);
 
      //funcion Maneja el cambio de los campos del formulario
