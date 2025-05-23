@@ -11,7 +11,7 @@ import LoginImage from '../../assets/Logo-nobg.png';
 //imports de servicios y contexto
 import { API } from '../../Servicio/api.js';    // Módulo que contiene funciones para interactuar con el backend
 import { DataContext } from '../../contexto/DataProvider.js';   // Contexto global para almacenar datos del usuario
-import { useNavigate } from 'react-router-dom';     // Hook para redirigir programáticamente
+import { useNavigate, useLocation } from 'react-router-dom';     // Hook para redirigir programáticamente
 
 
 //---------------------------------------------
@@ -109,6 +109,11 @@ const Login = ({ isUserAuthenticated }) => {
 
     const Navigate = useNavigate(); // para redireccionamiento del usuario
 
+    const location = useLocation();//location para rescatar la url anterior al inicio de sesion
+
+    // URL a la que se intentó acceder o '/' por defecto
+    const from = location.state?.from?.pathname || '/';
+
      // Función que alterna entre la vista de login y registro
     const toggleSingUp = () => {
         // Si ya está en la vista de registro, se vuelve al login; si no, cambia a signup
@@ -182,8 +187,10 @@ const Login = ({ isUserAuthenticated }) => {
             console.log("Datos del login:", response.data); //Console.log para depuracion
 
             // Guarda tokens en sessionStorage y redirige al home
-            sessionStorage.setItem('TokenAccess', `Bearer ${response.data.TokenAccess}`);
-            sessionStorage.setItem('RefreshToken', `Bearer ${response.data.RefreshToken}`);
+            sessionStorage.setItem('TokenAccess', response.data.TokenAccess);
+            sessionStorage.setItem('RefreshToken', response.data.RefreshToken);
+
+            console.log('RefreshToken guardado en sessionStorage:', sessionStorage.getItem('RefreshToken'));
 
             // Actualiza el contexto global con los datos del usuario autenticado
             setAccount({ username: response.data.username, name: response.data.name })
@@ -191,7 +198,7 @@ const Login = ({ isUserAuthenticated }) => {
             // Indica que el usuario está autenticado y redirige a la página de inicio
             isUserAuthenticated(true);
 
-            Navigate('/Home'); // redirige a la página principal
+            Navigate(from, { replace: true });
         }
         else{
 

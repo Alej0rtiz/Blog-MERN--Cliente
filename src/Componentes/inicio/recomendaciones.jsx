@@ -5,17 +5,19 @@ const RecomendacionesContainer = styled(Box)(({ theme }) => ({
     backdropFilter: "blur(16px) saturate(180%)",
     WebkitBackdropFilter: "blur(16px) saturate(180%)",
     border: "1px solid rgba(255, 255, 255, 0.2)",
-    borderRadius: "1rem",                             
+    borderRadius: "1rem",
+    overflow: "hidden",                             
     padding: theme.spacing(4),                          
     boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",        
     color: "#e0e7ff",                                  
     margin: theme.spacing(4, 0),                      
     fontSize: "0.875rem",
     boxSizing: "border-box",
+    position: "relative",
     "& ul": {
     listStyle: "none",
     paddingLeft: 0,
-    minHeight: "75vh",
+    minHeight: "55vh",
     marginTop: theme.spacing(1),
     gap: theme.spacing(2),
     },
@@ -23,6 +25,7 @@ const RecomendacionesContainer = styled(Box)(({ theme }) => ({
     fontSize: "0.875rem",
     lineHeight: 1.4,
     },
+
 }));
 
 const Recomendaciones = () => {
