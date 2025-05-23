@@ -14,6 +14,7 @@ import Header from './Componentes/Cabecera/header';
 import CreatePost from './Componentes/Crear/crearPost';
 import PostDetallado from './Componentes/Detalles/PostDetallado';
 import EditPost from './Componentes/Crear/editarPost';
+import ScrollToTop from './Componentes/Utilidad/scroll';
 import { getTokenAccess } from './utilidades/common';
 
 //---------------------------------------------
@@ -30,7 +31,7 @@ const RutaPrivada = ({ isAuthenticated }) =>{
   return(
 
     <>
-      <Header />  {/* Cabecera común para rutas privadas */}
+      <header><Header /></header>  {/* Cabecera común para rutas privadas */}
       <Outlet />  {/* Renderiza el componente hijo correspondiente */}
     </>
 
@@ -61,7 +62,7 @@ function App() {
 
       <>
 
-      <div style={{
+      <div role="status" aria-live="polite" style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -69,6 +70,7 @@ function App() {
         color: 'white',
         fontSize: '2rem'
       }}>
+        <span className="sr-only">Validando auth...</span>
         {/*espacio para algo visual*/}
       </div>
     </>
@@ -80,7 +82,11 @@ function App() {
         <DataProvider>
           {/* Define el enrutamiento de la aplicación */}
           <BrowserRouter>
+
+            <ScrollToTop />
+
             <div style={{ paddingTop: '0px', backgroundColor: '#0f172a', minHeight: '100vh' }}>
+              <main>
               {/*Rutas*/}
               <Routes>
                 {/* Ruta para el componente de inicio de sesión */}
@@ -99,6 +105,7 @@ function App() {
                   <Route path='edit/:id' element={<EditPost />} /> {/* /create?category=... */}
                 </Route>
               </Routes>
+              </main>
             </div>
           </BrowserRouter>
         </DataProvider>

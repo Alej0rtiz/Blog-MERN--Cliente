@@ -9,7 +9,7 @@ const Container = styled(Box)`
 
     background-color:rgba(233, 182, 73, 0.60);
     backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid: rgba(233, 182, 73, 0.2);
+    border: 1px solid rgba(233, 182, 73, 0.2);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 
     height: 100vh;
@@ -138,7 +138,7 @@ const EmptyPosts = () => {
             No se ha publicado nada aún.
         </h2>
 
-        <BoxCard active={active} onClick={handleClick}>
+        <BoxCard active={active} aria-label="Cubo interactivo de la pagina sin publicaciones" onClick={handleClick}>
         <Front>⚙️ Simulación</Front>
         <Back>🧪 Experimentos</Back>
         <Right>💻 Proyectos</Right>

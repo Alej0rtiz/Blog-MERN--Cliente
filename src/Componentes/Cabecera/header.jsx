@@ -219,7 +219,7 @@ const Header = () =>{
     return(
         <GlassAppBar elevation={0}>
             <NavContainer>
-                <Brand variant="h6">DevSim Blog</Brand>
+                <Brand component="h1" variant="h6">DevSim Blog</Brand>
 
                 {/*Version de escritorio*/}
                 <NavLinks>
@@ -242,7 +242,7 @@ const Header = () =>{
                 </NavLinks>
 
                 {/* Botón para menú móvil (solo visible en pantallas pequeñas) */}
-                <IconButton
+                <IconButton aria-label="Abrir menú de navegación"
                     edge="end"
                     sx={{ display: { md: "none" }, color: "#fff", marginRight: "25px" }}
                     onClick={() => setOpen(true)}
@@ -256,7 +256,7 @@ const Header = () =>{
                     open={open}
                     onClose={() => setOpen(false)}
                     PaperProps={{
-                        component: GlassPaper,}}
+                        component: GlassPaper, role: "navigation", 'aria-label': "Menú de navegación"}}
                 >
                     <DrawerLinkList>
                     {[
@@ -265,7 +265,6 @@ const Header = () =>{
                         { text: "Cerrar sesión", action: handleLogoutClick },
                         ].map(({ text, to, action }, index) => (
                         <DrawerLinkItem
-                            button
                             key={index}
                             component={to ? Link : 'div'}
                             to={to || undefined}
