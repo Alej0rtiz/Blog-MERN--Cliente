@@ -16,6 +16,7 @@ import PostDetallado from './Componentes/Detalles/PostDetallado';
 import EditPost from './Componentes/Crear/editarPost';
 import ScrollToTop from './Componentes/Utilidad/scroll';
 import { getTokenAccess } from './utilidades/common';
+import Profile from './Componentes/inicio/profile';
 
 //---------------------------------------------
 // Componente de ruta privada que protege las rutas que requieren autenticación
@@ -85,7 +86,7 @@ function App() {
 
             <ScrollToTop />
 
-            <div style={{ paddingTop: '0px', backgroundColor: '#0f172a', minHeight: '100vh' }}>
+            <div style={{ paddingTop: '0px', backgroundColor: '#0f172a', maxHeight: '100vh' }}>
               <main>
               {/*Rutas*/}
               <Routes>
@@ -103,6 +104,7 @@ function App() {
                   <Route path='details/:id' element={<PostDetallado />} /> {/* /details/... */}
 
                   <Route path='edit/:id' element={<EditPost />} /> {/* /create?category=... */}
+                  <Route path='profile' element={<Profile />} /> {/* /profile */}
                 </Route>
               </Routes>
               </main>
