@@ -148,7 +148,7 @@ const Login = ({ isUserAuthenticated }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const { setAccount } = useContext(DataContext);
-   
+
 
     const Navigate = useNavigate(); // para redireccionamiento del usuario
 

@@ -8,11 +8,7 @@ import { useState } from "react";
 const Container = styled(Box)`
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(16px) saturate(180%);
-<<<<<<< HEAD
-    border: 1px solid rgba(255, 255, 255, 0.2);
-=======
     border: 1px solid rgba(233, 182, 73, 0.2);
->>>>>>> main
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     height: 100vh;
     display: flex;
@@ -72,8 +68,8 @@ const Face = styled(Box)(({ backgroundcolor }) => ({
         width: "120%",
         height: "120%",
         background: "linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent)",
-        top: "-100%",
-        left: "-100%",
+        top: "-120%",
+        left: "-120%",
         transition: "all 0.5s ease",
     },
     "&::after": {
