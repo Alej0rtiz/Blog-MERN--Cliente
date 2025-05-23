@@ -66,7 +66,7 @@ const Recomendaciones = () => {
         <ul>
         <li>▶️ Articulos recomendados: <a href="https://codelabs.developers.google.com/your-first-webgpu-app?hl=es-419#0" target="_blank" rel="noopener noreferrer" ><strong>Tu primera app de WebGPU</strong></a></li>
         <li>📚 Libro recomendado: <a href="https://math.hws.edu/graphicsbook/" target="_blank" rel="noopener noreferrer" ><em>"Introduction to Computer Graphics"</em></a> de David J.Eck</li>
-        <li>👨‍💻 Canal recomendado: <a href="" target="_blank" rel="noopener noreferrer"><strong>@midudev</strong></a></li>
+        <li>👨‍💻 Canal recomendado: <a href="https://www.youtube.com/@midudev" target="_blank" rel="noopener noreferrer"><strong>@midudev</strong></a></li>
         </ul>
     </RecomendacionesContainer>
     );
