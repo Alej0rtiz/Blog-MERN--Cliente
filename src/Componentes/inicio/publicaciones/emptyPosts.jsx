@@ -3,6 +3,8 @@ import { Box, Typography, styled } from "@mui/material";
 // useState para la animación
 import { useState } from "react";
 
+// estilos de la vista
+
 const Container = styled(Box)`
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(16px) saturate(180%);
@@ -23,8 +25,8 @@ const Container = styled(Box)`
 const BoxCard = styled(Box, {
     shouldForwardProp: (prop) => prop !== "active",
 })(({ active }) => ({
-    width: "220px",
-    height: "220px",
+    width: "200px",
+    height: "200px",
     position: "relative",
     transformStyle: "preserve-3d",
     transition: "transform 1s ease",
@@ -43,20 +45,21 @@ const BoxCard = styled(Box, {
 
 const Face = styled(Box)(({ backgroundcolor }) => ({
     position: "absolute",
-    width: "100%",
-    height: "100%",
+    width: "200px",
+    height: "200px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    fontSize: "2rem",
-    fontWeight: "600",
-    borderRadius: "16px",
-    color: "#fff",
+    fontSize: "1.1rem",
+    fontWeight: "bold",
+    fontFamily: "'Fira Code', monospace",
+    borderRadius: "12px",
     background: backgroundcolor || "#646cff",
-    border: "1px solid rgba(255, 255, 255, 0.15)",
-    boxShadow: "inset 0 0 10px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.2)",
-    backfaceVisibility: "visible",
-    transition: "all 0.3s ease",
+    color: "#fff",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    boxSizing: "border-box",
+    backfaceVisibility: "hidden",
+    textAlign: "center",
     overflow: "hidden",
 
     "&::before": {
@@ -69,7 +72,6 @@ const Face = styled(Box)(({ backgroundcolor }) => ({
         left: "-100%",
         transition: "all 0.5s ease",
     },
-
     "&::after": {
         content: '""',
         position: "absolute",
@@ -78,40 +80,39 @@ const Face = styled(Box)(({ backgroundcolor }) => ({
         opacity: 0,
         transition: "opacity 0.3s ease",
     },
-
     "&:hover::before": {
         top: "100%",
         left: "100%",
     },
-
     "&:hover::after": {
         opacity: 1,
     },
 }));
 
+// Posición 3D de cada cara
 const Front = styled(Face)`
-    transform: translateZ(110px);
-    background-color: #6a8eff;
+    transform: rotateY(0deg) translateZ(100px);
+    background-color: #1e3a8a;
 `;
 const Back = styled(Face)`
-    transform: translateZ(-110px) rotateY(180deg);
-    background-color: #00acc1;
+    transform: rotateY(180deg) translateZ(100px);
+    background-color: #9333ea;
 `;
 const Right = styled(Face)`
-    transform: translateX(110px) rotateY(90deg);
-    background-color: #43a047;
+    transform: rotateY(90deg) translateZ(100px);
+    background-color: #0e7490;
 `;
 const Left = styled(Face)`
-    transform: translateX(-110px) rotateY(-90deg);
-    background-color: #e91e63;
+    transform: rotateY(-90deg) translateZ(100px);
+    background-color: #6b21a8;
 `;
 const Top = styled(Face)`
-    transform: translateY(-110px) rotateX(90deg);
-    background-color: #ffb300;
+    transform: rotateX(90deg) translateZ(100px);
+    background-color: #64748b;
 `;
 const Bottom = styled(Face)`
-    transform: translateY(110px) rotateX(-90deg);
-    background-color: #8e24aa;
+    transform: rotateX(-90deg) translateZ(100px);
+    background-color: #334155;
 `;
 
 const EmptyPosts = () => {
@@ -129,12 +130,12 @@ const EmptyPosts = () => {
             </h2>
 
             <BoxCard active={active} onClick={handleClick}>
-                <Front>🌟</Front>
-                <Back>🧠</Back>
-                <Right>🎉</Right>
-                <Left>💡</Left>
-                <Top>📢</Top>
-                <Bottom>⚙️</Bottom>
+                <Front>⚙️ Simulación</Front>
+                <Back>🧪 Experimentos</Back>
+                <Right>💻 Proyectos</Right>
+                <Left>💡 Ideas</Left>
+                <Top>📢 Comunidad</Top>
+                <Bottom>🧩 Creaciones</Bottom>
             </BoxCard>
 
             <Typography

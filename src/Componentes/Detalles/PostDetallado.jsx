@@ -8,6 +8,9 @@ import { API } from "../../Servicio/api.js";
 //import del contexto para mostrar las opciones de edicion y eliminación solo a usuarios debidos
 import { DataContext } from "../../contexto/DataProvider.js";
 
+//import del componentes de comentarios
+import Comentarios from "./Comentarios/Comentarios.jsx";
+
 //---------------------------------------------
 // Estilos personalizados con styled-components
 //---------------------------------------------
@@ -146,7 +149,7 @@ const PostDetallado = () =>{
 
 
     return(
-
+    <>
         <GlassCard>
             {/* Imagen del post si es que existe */}
             {post.picture && (<PostImage src={post.picture} 
@@ -180,8 +183,13 @@ const PostDetallado = () =>{
 
             {/* Contenido del post */}
             <PostContent>{post.description}</PostContent>
-
+        
         </GlassCard>
+
+        {/* Sección de comentarios */}
+        <Comentarios post={post} />
+
+    </>
     )
 
 }

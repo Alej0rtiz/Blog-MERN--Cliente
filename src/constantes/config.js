@@ -37,5 +37,8 @@ export const SERVICE_URLS = {
     getAllPosts: {url: '/posts', method: 'GET', params: true}, //endpoint para obtener todos los posts, con params
     getPostById: {url: 'post', method: 'GET', query: true}, //endpoint para obtener un post por su id, con query
     updatePost: {url: 'update', method: 'PUT', query: true}, //endpoint para actualizar un post por su id, con query
-    deletePost: {url: 'delete', method: 'DELETE', query: true} //endpoint para eliminar un post por su id, con query
+    deletePost: {url: 'delete', method: 'DELETE', query: true}, //endpoint para eliminar un post por su id, con query
+    newComment: {url: '/comment/new', method: 'POST'}, //endpoint para crear un nuevo comentario
+    getComments: {url: 'comments', method: 'GET', query: true}, //endpoint para obtener todos los comentarios de un post, con query
+    deleteComment: {url: '/comment/delete', method: 'DELETE', query: true}//endpoint para eliminar un comentario por su id, con query
 }

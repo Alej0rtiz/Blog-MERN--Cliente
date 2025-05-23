@@ -160,13 +160,35 @@ const Login = ({ isUserAuthenticated }) => {
     };
 
     const SignUpUser = async () => {
-        let response = await API.userSignup(signup);
-        if (response.IsSuccess) {
+
+        // Validación: no permitir campos vacíos
+        if (!signup.name.trim() || !signup.username.trim() || !signup.password.trim()) {
+        setError('⛔ Por favor, complete todos los campos.');
+        return;
+        }
+
+        try {
+            
+            let response = await API.userSignup(signup);
+            if(response.IsSuccess){
+
+            // Limpia error, reinicia formulario y cambia a vista de login
             setError('');
             setSignup(signupInitialValues);
             toggleAccount('login');
+            }
+            else{
+
+            setError(response.message || 'No se pudo crear la cuenta. Intente más tarde.');
+            
+            }} catch (error) {
+
+                if (error.response?.data?.message) {
+            setError(error.response.data.message);
         } else {
-            setError('Algo salió mal. Inténtalo nuevamente más tarde.');
+            setError('Ocurrió un error al registrarse. Intente más tarde.');
+        }
+        console.error('Error en registro:', error);
         }
     };
 
@@ -174,9 +196,22 @@ const Login = ({ isUserAuthenticated }) => {
         setLogin({ ...login, [e.target.name]: e.target.value });
     };
 
-    const loginUser = async () => {
+    // Función que se ejecuta al hacer clic en el botón de inicio de sesion
+    // Envía los datos del formulario de inicio al backend
+    const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+};
+
+const loginUser = async () => {
+    if (!login.username.trim() || !login.password.trim()) {
+        setError('⛔ Por favor, complete todos los campos.');
+        return;
+    }
+
+    try {
         let response = await API.userLogin(login);
-        if (response.IsSuccess) {
+
+        if(response.IsSuccess){
             setError('');
             setLogin(loginInitialValues);
             sessionStorage.setItem('TokenAccess', `Bearer ${response.data.TokenAccess}`);
@@ -185,13 +220,17 @@ const Login = ({ isUserAuthenticated }) => {
             isUserAuthenticated(true);
             Navigate('/Home');
         } else {
-            setError('Algo salió mal. Inténtalo nuevamente más tarde.');
+            setError(response.message || 'Credenciales incorrectas');
         }
-    };
-
-    const togglePasswordVisibility = () => {
-        setShowPassword((prev) => !prev);
-    };
+    } catch (error) {
+        if (error.response && error.response.data && error.response.data.message){
+            setError(error.response.data.message);
+        } else {
+            setError('⛔ Credenciales incorrectas');
+        }
+        console.error('Error en la respuesta:', error);
+    }
+};
 
     return (
         <Fondo>
@@ -268,6 +307,6 @@ const Login = ({ isUserAuthenticated }) => {
             </Componente>
         </Fondo>
     );
-};
+}
 
 export default Login;
