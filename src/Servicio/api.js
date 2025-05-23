@@ -5,7 +5,7 @@ import axios from 'axios';
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from '../constantes/config';
 
 // Import de funciones para obtener el token de acceso y el usuario autenticado
-import { getTokenAccess, getType } from '../utilidades/common';
+import { getTokenAccess, getRefreshToken, setAccessToken, setRefreshToken, getType } from '../utilidades/common';
 
 // URL base del servidor backend
 const API_URL = 'http://localhost:8000'; 
@@ -27,6 +27,9 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     function (config) {
 
+        if (!config._customProcessed) {
+        
+
         if (config.TYPE.params) {
             
             config.params = config.TYPE.params; //si el endpoint requiere parámetros, se añaden a la configuración
@@ -36,6 +39,8 @@ axiosInstance.interceptors.request.use(
             config.url = config.url + "/" + config.TYPE.query; //si el endpoint requiere query, se añade a la configuración
 
         }
+        config._customProcessed = true; // Marca como ya procesado
+    }
         //abierto a poder añadir cabeceras de autenticación u otros cambios globales
         return config;
     },
@@ -53,8 +58,39 @@ axiosInstance.interceptors.response.use(
         // Procesa la respuesta con una función personalizada
         return ProcessResponse(response);
     },
-    function (error) {
-        // Procesa el error con una función personalizada
+    
+    async function (error) {
+        
+        const originalRequest = error.config;
+
+        // Si el error es 401 y no se ha intentado ya refrescar el token
+        if(error.response?.status === 401 && !originalRequest._retry){
+
+            originalRequest._retry = true;
+
+            try{
+
+                const refreshToken = getRefreshToken();
+
+                const response = await axios.post(`${API_URL}/token/refresh`, {refreshToken: refreshToken});
+
+                const newAccessToken = response.data.TokenAccess;
+                // Guarda el nuevo token
+                setAccessToken(newAccessToken);
+                // Actualiza el header de autorización en la solicitud original
+                originalRequest.headers['authorization'] = `Bearer ${newAccessToken}`;
+                // Reintenta la solicitud original con el nuevo token
+                return axiosInstance(originalRequest);
+            
+            }catch(refreshError){
+
+                console.error("No se pudo renovar el Token", refreshError);
+                
+                return Promise.reject(refreshError);
+            }
+
+        }
+
         return Promise.reject(ProcessError(error));
     }
 );
@@ -111,7 +147,7 @@ for (const [key, value] of Object.entries(SERVICE_URLS)) {
             responseType: value.responseType,   // tipo de respuesta esperada (json)
 
             headers: {
-                authorization: getTokenAccess(), // token de acceso para autenticación
+                authorization: `Bearer ${getTokenAccess()}`, // token de acceso para autenticación
             },
 
             TYPE: getType(value, body),

@@ -40,5 +40,7 @@ export const SERVICE_URLS = {
     deletePost: {url: 'delete', method: 'DELETE', query: true}, //endpoint para eliminar un post por su id, con query
     newComment: {url: '/comment/new', method: 'POST'}, //endpoint para crear un nuevo comentario
     getComments: {url: 'comments', method: 'GET', query: true}, //endpoint para obtener todos los comentarios de un post, con query
-    deleteComment: {url: '/comment/delete', method: 'DELETE', query: true}//endpoint para eliminar un comentario por su id, con query
+    deleteComment: {url: '/comment/delete', method: 'DELETE', query: true},//endpoint para eliminar un comentario por su id, con query
+    refreshToken: {url: '/token/refresh', method: 'POST' },//endpoint para refrescar el token de acceso
+    logoutUser: {url: '/logout', method: 'POST'}//endpoint para cierre de sesión
 }

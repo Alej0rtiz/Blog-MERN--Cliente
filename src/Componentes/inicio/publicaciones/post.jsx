@@ -8,7 +8,7 @@ import { addEllipsis } from "../../../utilidades/common";
 //---------------------------------------------
 
 // Contenedor principal para cada publicación
-const PostContainer = styled(Box)(({ theme }) => ({
+const PostContainer = styled('article')(({ theme }) => ({
 
     backgroundColor: "rgba(255, 255, 255, 0.15)",
     backdropFilter: "blur(16px) saturate(180%)",
@@ -62,7 +62,7 @@ const Post = ({post}) => {
         <PostContainer>
             {/* Muestra imagen si existe en el post */}
             {post.picture && (
-                <PostImage src={post.picture} alt="imagen de entrada del post" />
+                <PostImage src={post.picture} alt={post.title ? `Imagen del post: ${post.title}` : "Imagen del post"} />
             )}
 
             {/* Muestra la categoría (decodificada por si viene codificada en la URL) */}

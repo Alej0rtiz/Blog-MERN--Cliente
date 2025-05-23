@@ -1,10 +1,10 @@
 //imports de react
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // Import del proveedor de contexto que maneja el estado global
 import DataProvider from './contexto/DataProvider';
 
 // Import de los módulos de enrutamiento de React Router
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
 // Import de Componentes de las vistas
@@ -14,22 +14,26 @@ import Header from './Componentes/Cabecera/header';
 import CreatePost from './Componentes/Crear/crearPost';
 import PostDetallado from './Componentes/Detalles/PostDetallado';
 import EditPost from './Componentes/Crear/editarPost';
+import ScrollToTop from './Componentes/Utilidad/scroll';
+import { getTokenAccess } from './utilidades/common';
 
 //---------------------------------------------
 // Componente de ruta privada que protege las rutas que requieren autenticación
 //---------------------------------------------
-const RutaPrivada = ({ isAuthenticated, ...props }) =>{
+const RutaPrivada = ({ isAuthenticated }) =>{
+
+    const location = useLocation();
+
+    if (!isAuthenticated) {
+    return <Navigate to="/login" replace state={{ from: location }} />;
+    }
 
   return(
-    isAuthenticated ? 
+
     <>
-      <Header />  {/* Cabecera común para rutas privadas */}
+      <header><Header /></header>  {/* Cabecera común para rutas privadas */}
       <Outlet />  {/* Renderiza el componente hijo correspondiente */}
     </>
-
-    :
-    // Redirecciona al login si no está autenticado
-    <Navigate replace to='/login' />
 
   )
 
@@ -41,13 +45,48 @@ function App() {
 
   // Estado para manejar si el usuario está autenticado o no
   const [isAuthenticated, isUserAuthenticated] = useState(false);
+  //estado de checkeo de la autenticacion
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+
+    const token = getTokenAccess();
+    if(token){
+        isUserAuthenticated(true);
+    }
+    setIsCheckingAuth(false);
+  }, [])
+
+  if (isCheckingAuth) {
+    return (
+
+      <>
+
+      <div role="status" aria-live="polite" style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 'calc(100vh - 60px)',
+        color: 'white',
+        fontSize: '2rem'
+      }}>
+        <span className="sr-only">Validando auth...</span>
+        {/*espacio para algo visual*/}
+      </div>
+    </>
+    )
+  }
 
   return (
         // Proporciona el contexto global a toda la aplicación
         <DataProvider>
           {/* Define el enrutamiento de la aplicación */}
           <BrowserRouter>
+
+            <ScrollToTop />
+
             <div style={{ paddingTop: '0px', backgroundColor: '#0f172a', minHeight: '100vh' }}>
+              <main>
               {/*Rutas*/}
               <Routes>
                 {/* Ruta para el componente de inicio de sesión */}
@@ -66,6 +105,7 @@ function App() {
                   <Route path='edit/:id' element={<EditPost />} /> {/* /create?category=... */}
                 </Route>
               </Routes>
+              </main>
             </div>
           </BrowserRouter>
         </DataProvider>

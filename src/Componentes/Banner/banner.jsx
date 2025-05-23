@@ -3,7 +3,7 @@ import { Box, styled, Typography } from '@mui/material';
 //---------------------------------------------
 // Estilos personalizados con styled-components
 //---------------------------------------------
-const Hero = styled(Box)`
+const Hero = styled('section')`
 
     position: relative;
     width: 100%;
@@ -70,11 +70,12 @@ const SubTitle = styled(Typography)`
 
 // Render del componente
 const Banner = () => {
-    return (
-        <Hero>
+
+    return(
+        <Hero role="banner" aria-label="Banner principal del blog">
             <HeroContent>
-                <SubTitle>Bienvenido a DevSim Blog</SubTitle>
-                <BlogTitle>Explora artículos sobre desarrollo, simulación y más</BlogTitle>
+                <SubTitle component="h2">Bienvenido a DevSim Blog</SubTitle>
+                <BlogTitle component="p">Explora artículos sobre desarrollo, simulación y más</BlogTitle>
             </HeroContent>
         </Hero>
     )

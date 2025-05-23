@@ -8,7 +8,11 @@ import { useState } from "react";
 const Container = styled(Box)`
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(16px) saturate(180%);
+<<<<<<< HEAD
     border: 1px solid rgba(255, 255, 255, 0.2);
+=======
+    border: 1px solid rgba(233, 182, 73, 0.2);
+>>>>>>> main
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     height: 100vh;
     display: flex;
@@ -128,24 +132,23 @@ const EmptyPosts = () => {
             <h2 style={{ marginBottom: "60px", fontSize: "1.5rem" }}>
                 No se ha publicado nada aún.
             </h2>
-
-            <BoxCard active={active} onClick={handleClick}>
-                <Front>⚙️ Simulación</Front>
-                <Back>🧪 Experimentos</Back>
-                <Right>💻 Proyectos</Right>
-                <Left>💡 Ideas</Left>
-                <Top>📢 Comunidad</Top>
-                <Bottom>🧩 Creaciones</Bottom>
-            </BoxCard>
-
-            <Typography
-                variant="h6"
-                sx={{ marginTop: 10, textAlign: "center", maxWidth: 300, userSelect: "none" }}
-            >
-                No hay publicaciones aquí aún... <br />
-                ¿Quieres ser el primero en crear una?
-            </Typography>
-        </Container>
+        <BoxCard active={active} aria-label="Cubo interactivo de la pagina sin publicaciones" onClick={handleClick}>
+        <Front>⚙️ Simulación</Front>
+        <Back>🧪 Experimentos</Back>
+        <Right>💻 Proyectos</Right>
+        <Left>💡 Ideas</Left>
+        <Top>📢 Comunidad</Top>
+        <Bottom>🧩 Creaciones</Bottom>
+        </BoxCard>
+        
+        <Typography
+        variant="h6"
+        sx={{ marginTop: 10, textAlign: "center", maxWidth: 300, userSelect: "none" }}
+        >
+        No hay publicaciones aquí aún... <br />
+        ¿Quieres ser el primero en crear una?
+        </Typography>
+    </Container>
     );
 };
 

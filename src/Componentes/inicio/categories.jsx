@@ -49,7 +49,7 @@ const StyledLink = styled(Link)({
     left: "50%",
     width: 0,
     height: "2px",
-    backgroundColor: "#24fb6f", // un amarillo anaranjado visible y elegante
+    backgroundColor: "#24fb6f",
     transition: "width 0.3s ease, left 0.3s ease",
     },
 

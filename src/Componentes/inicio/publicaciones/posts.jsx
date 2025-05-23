@@ -49,8 +49,8 @@ const Posts = () =>{
         {
             posts && posts.length > 0 ? posts.map(post => (
                 
-                <Link to={`/details/${post._id}`} style={{textDecoration: "none", color: "inherit"}}>
-                    <Post post={post} />
+                <Link to={`/details/${post._id}`} aria-label={`Ver detalles de la publicación: ${post.title || 'sin título'}`} style={{textDecoration: "none", color: "inherit"}}>
+                    <Post post={post} key={post._id}/>
                 </Link>
 
             )): (

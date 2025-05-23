@@ -6,9 +6,9 @@ import { Box, TextField, Button, styled, Typography, IconButton, InputAdornment 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 //imports de servicios y contexto
-import { API } from '../../Servicio/api.js';
-import { DataContext } from '../../contexto/DataProvider.js';
-import { useNavigate } from 'react-router-dom';
+import { API } from '../../Servicio/api.js';    // Módulo que contiene funciones para interactuar con el backend
+import { DataContext } from '../../contexto/DataProvider.js';   // Contexto global para almacenar datos del usuario
+import { useNavigate, useLocation } from 'react-router-dom';     // Hook para redirigir programáticamente
 
 // Fondo principal con animación de gradiente
 const Fondo = styled(Box)`
@@ -148,8 +148,16 @@ const Login = ({ isUserAuthenticated }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const { setAccount } = useContext(DataContext);
-    const Navigate = useNavigate();
+   
 
+    const Navigate = useNavigate(); // para redireccionamiento del usuario
+
+    const location = useLocation();//location para rescatar la url anterior al inicio de sesion
+
+    // URL a la que se intentó acceder o '/' por defecto
+    const from = location.state?.from?.pathname || '/';
+
+     // Función que alterna entre la vista de login y registro
     const toggleSingUp = () => {
         toggleAccount(account === 'signup' ? 'login' : 'signup');
         setError('');
@@ -206,31 +214,48 @@ const loginUser = async () => {
     if (!login.username.trim() || !login.password.trim()) {
         setError('⛔ Por favor, complete todos los campos.');
         return;
-    }
+        }
 
-    try {
-        let response = await API.userLogin(login);
+        try {
+            let response = await API.userLogin(login);
+            
+            if(response.IsSuccess){
 
-        if(response.IsSuccess){
+            // Limpia error, reinicia formulario y cambia a vista de login
             setError('');
             setLogin(loginInitialValues);
-            sessionStorage.setItem('TokenAccess', `Bearer ${response.data.TokenAccess}`);
-            sessionStorage.setItem('RefreshToken', `Bearer ${response.data.RefreshToken}`);
-            setAccount({ username: response.data.username, name: response.data.name });
+
+            console.log("Datos del login:", response.data); //Console.log para depuracion
+
+            // Guarda tokens en sessionStorage y redirige al home
+            sessionStorage.setItem('TokenAccess', response.data.TokenAccess);
+            sessionStorage.setItem('RefreshToken', response.data.RefreshToken);
+
+            console.log('RefreshToken guardado en sessionStorage:', sessionStorage.getItem('RefreshToken'));
+
+            // Actualiza el contexto global con los datos del usuario autenticado
+            setAccount({ username: response.data.username, name: response.data.name })
+
+            // Indica que el usuario está autenticado y redirige a la página de inicio
             isUserAuthenticated(true);
-            Navigate('/Home');
-        } else {
+
+            Navigate(from, { replace: true });
+        }
+        else{
+
             setError(response.message || 'Credenciales incorrectas');
+        }} catch (error) {
+
+            if (error.response && error.response.data && error.response.data.message){
+
+                setError(error.response.data.message); // "El usuario no existe"
+            }else{
+                setError('⛔ Credenciales incorrectas');
+            }
+            console.error('Error en la respuesta:', error); // depuración
         }
-    } catch (error) {
-        if (error.response && error.response.data && error.response.data.message){
-            setError(error.response.data.message);
-        } else {
-            setError('⛔ Credenciales incorrectas');
-        }
-        console.error('Error en la respuesta:', error);
+
     }
-};
 
     return (
         <Fondo>
@@ -240,11 +265,11 @@ const loginUser = async () => {
                         <Typography variant="h5" align="center" fontWeight="bold" color="#FFFFFF">
                             Iniciar Sesión
                         </Typography>
-                        <CustomTextField variant="outlined" value={login.username} onChange={onValueChange} name="username" label="Nombre de usuario" />
+                        <CustomTextField variant="outlined" value={login.username} onChange={(e) => onValueChange(e)} name="username" label="Nombre de usuario" />
                         <CustomTextField
                             variant="outlined"
                             value={login.password}
-                            onChange={onValueChange}
+                            onChange={(e) => onValueChange(e)}
                             name="password"
                             label="Contraseña"
                             type={showPassword ? 'text' : 'password'}
@@ -259,7 +284,7 @@ const loginUser = async () => {
                             }}
                         />
                         {error && <Error>{error}</Error>}
-                        <LoginButton variant="contained" onClick={loginUser}>Iniciar Sesión</LoginButton>
+                        <LoginButton variant="contained" onClick={() => loginUser()}>Iniciar Sesión</LoginButton>
                         <Typography align="center" fontSize={14}>
                             <Typography component="span" color="#FFFFFF" fontSize={14} fontWeight={300} sx={{ mr: 0.5 }}>
                                 ¿No tienes cuenta?
@@ -274,13 +299,13 @@ const loginUser = async () => {
                         <Typography variant="h5" align="center" fontWeight="bold" color="#FFFFFF">
                             Registro
                         </Typography>
-                        <CustomTextField variant="outlined" name="username" label="Nombre de usuario" onChange={onInputChange} />
-                        <CustomTextField variant="outlined" name="name" label="Nombre" onChange={onInputChange} />
+                        <CustomTextField variant="outlined" name="username" label="Nombre de usuario" onChange={(e)=> onInputChange(e)} />
+                        <CustomTextField variant="outlined" name="name" label="Nombre" onChange={(e)=> onInputChange(e)} />
                         <CustomTextField
                             variant="outlined"
                             name="password"
                             label="Contraseña"
-                            onChange={onInputChange}
+                            onChange={(e)=> onInputChange(e)}
                             type={showPassword ? 'text' : 'password'}
                             InputProps={{
                                 endAdornment: (
@@ -293,12 +318,12 @@ const loginUser = async () => {
                             }}
                         />
                         {error && <Error>{error}</Error>}
-                        <SingUpButton variant="contained" onClick={SignUpUser}>Registrarse</SingUpButton>
+                        <SingUpButton variant="contained" onClick={() => SignUpUser()}>Registrarse</SingUpButton>
                         <Typography align="center" fontSize={14}>
                             <Typography component="span" color="#FFFFFF" fontSize={14} fontWeight={300} sx={{ mr: 0.5 }}>
                                 ¿Ya tienes una cuenta?
                             </Typography>
-                            <EnlaceRegistro onClick={toggleSingUp} style={{ color: '#90caf9' }}>
+                            <EnlaceRegistro onClick={() => toggleSingUp()} style={{ color: '#90caf9' }}>
                                 Inicia sesión aquí
                             </EnlaceRegistro>
                         </Typography>

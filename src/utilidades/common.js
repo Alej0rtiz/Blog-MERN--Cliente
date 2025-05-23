@@ -8,10 +8,34 @@ export const getTokenAccess = () => {
     return sessionStorage.getItem('TokenAccess');
 };
 
+export const getRefreshToken = () => {
+    // Obtiene el token de refresco del almacenamiento de sesión
+    return sessionStorage.getItem('RefreshToken');
+};
+
+export const setAccessToken = (token) => {
+    // Modifica el token de Acceso del almacenamiento de sesión
+    if(token){
+        return sessionStorage.setItem('TokenAccess', token);
+    
+    }else{
+        sessionStorage.removeItem('TokenAccess');
+    }
+};
+
+export const setRefreshToken = (token) => {
+    // Modifica el token de Refresco del almacenamiento de sesión
+    if(token){
+        return sessionStorage.setItem('RefreshToken',token);
+    }else{
+        sessionStorage.removeItem('RefreshToken');
+    }
+};
+
 export const addEllipsis = (text, maxLength) => {
     //agrega puntos suspensivos al texto si excede la longitud máxima
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-}
+};
 
 //Determina el tipo de estructura a enviar al backend según el tipo de endpoint.
 export const getType = (value, body) => {
