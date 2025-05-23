@@ -75,7 +75,7 @@ function App() {
 //export del componente principal
 export default App;
 
-
+//agregar un footer
 /*
 <Route path='/' element = {<RutaPrivada isAuthenticated = {isAuthenticated} />}>
                   
