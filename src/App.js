@@ -116,18 +116,3 @@ function App() {
 
 //export del componente principal
 export default App;
-
-//agregar un footer
-/*
-<Route path='/' element = {<RutaPrivada isAuthenticated = {isAuthenticated} />}>
-                  
-                  <Route path = '/' element = {<Home />} />
-                </Route>
-
-                <Route path='/Create' element = {<RutaPrivada isAuthenticated = {isAuthenticated} />}>
-                  
-                  <Route path = '/Create' element = {<CreatePost />} />
-</Route>
-
-por si app.js da errores al renderizar partes relacionadas a las categorias, hacer revision de esta seccion, gracias
-*/
