@@ -8,6 +8,8 @@ import Banner from "../Banner/banner"
 import Categorias from "./categories"
 import Recomendaciones from "./recomendaciones"
 import Posts from "./publicaciones/posts"
+import { Helmet } from "react-helmet-async"
+import MetaDefaultImg from "../../assets/meta-img-default.png"
 
 //---------------------------------------------
 // Estilos personalizados con styled-components
@@ -36,29 +38,46 @@ const MainGrid = styled('main')(({ theme }) => ({
 
 const Home = () => {
     return(
-        <Background>
-            <Banner />
 
-                <MainGrid>
-                {/* Grid principal estilo Holy Grail */}
+        <>
 
-                    {/* Categorías - izquierda */}
-                    <Box component="aside" aria-label="Sección de categorías" sx={{ gridColumn: { lg: 'span 1' } }}>
-                        <Categorias />
-                    </Box>
+            <Helmet>
 
-                    {/* Posts - centro */}
-                    <Box component="section" aria-label="Sección principal de publicaciones" sx={{ gridColumn: { lg: 'span 2' } }}>
-                        <Posts />
-                    </Box>
+                <title>Inicio - DevSim</title>
+                <meta name="description" content="Explora publicaciones, articulos y discusiones en DevSim" />
+                <meta property="og:title" content="Inicio - DevSim Blog" />
+                <meta property="og:description" content="Explora publicaciones, articulos y discusiones en DevSim" />
+                <meta property="og:image" content={MetaDefaultImg} />
+                <meta property="og:url" content="https://devsim-blog.vercel.app/" />
+                <meta name="twitter:card" content={MetaDefaultImg} />
 
-                    {/* Recomendaciones - derecha */}
-                    <Box component="aside" aria-label="Sección de recomendaciones" sx={{ gridColumn: { lg: 'span 1' } }}>
-                        <Recomendaciones />
-                    </Box>
+            </Helmet>
 
-            </MainGrid>
-        </Background>
+            <Background>
+                <Banner />
+
+                    <MainGrid>
+                    {/* Grid principal estilo Holy Grail */}
+
+                        {/* Categorías - izquierda */}
+                        <Box component="aside" aria-label="Sección de categorías" sx={{ gridColumn: { lg: 'span 1' } }}>
+                            <Categorias />
+                        </Box>
+
+                        {/* Posts - centro */}
+                        <Box component="section" aria-label="Sección principal de publicaciones" sx={{ gridColumn: { lg: 'span 2' } }}>
+                            <Posts />
+                        </Box>
+
+                        {/* Recomendaciones - derecha */}
+                        <Box component="aside" aria-label="Sección de recomendaciones" sx={{ gridColumn: { lg: 'span 1' } }}>
+                            <Recomendaciones />
+                        </Box>
+
+                </MainGrid>
+            </Background>
+        
+        </>
     )
 }
 

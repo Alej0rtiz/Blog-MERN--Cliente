@@ -1,5 +1,9 @@
 //imports de React 
 import { useState, useContext } from 'react';
+//import de Helmet para metadatos
+import { Helmet } from "react-helmet-async"
+//imagen por defecto para metadatos
+import MetaDefaultImg from "../../assets/meta-img-default.png"
 
 //imports Material UI
 import { Box, TextField, Button, styled, Typography, IconButton, InputAdornment } from '@mui/material';
@@ -258,6 +262,20 @@ const loginUser = async () => {
     }
 
     return (
+
+        <>
+
+        <Helmet>
+            <title>Inicia sesión - DevSim Blog</title>
+            <meta name="description" content="Accede a tu cuenta para publicar, comentar y compartir en DevSim" />
+            <meta property="og:title" content="Inicia sesión - DevSim" />
+            <meta property="og:description" content="Accede para comenzar a interactuar con la comunidad." />
+            <meta property="og:image" content={MetaDefaultImg} />
+            <meta property="og:url" content="https://devsim-blog.vercel.app/" />
+            <meta name="twitter:card" content="summary_large_image" />
+        </Helmet>
+    
+
         <Fondo>
             <Componente>
                 {account === 'login' ? (
@@ -331,6 +349,7 @@ const loginUser = async () => {
                 )}
             </Componente>
         </Fondo>
+        </>
     );
 }
 

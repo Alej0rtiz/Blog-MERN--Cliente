@@ -5,7 +5,7 @@ import axios from 'axios';
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from '../constantes/config';
 
 // Import de funciones para obtener el token de acceso y el usuario autenticado
-import { getTokenAccess, getRefreshToken, setAccessToken, setRefreshToken, getType } from '../utilidades/common';
+import { getTokenAccess, getRefreshToken, setAccessToken, getType } from '../utilidades/common';
 
 // URL base del servidor backend
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000'; 

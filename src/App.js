@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 // Import del proveedor de contexto que maneja el estado global
 import DataProvider from './contexto/DataProvider';
-
+//import de Helmet-provider para metadatos
+import { HelmetProvider } from 'react-helmet-async';
 // Import de los módulos de enrutamiento de React Router
 import { BrowserRouter, Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
@@ -79,7 +80,8 @@ function App() {
   }
 
   return (
-        // Proporciona el contexto global a toda la aplicación
+      <HelmetProvider>
+        {/*Contexto global para toda la aplicación */}
         <DataProvider>
           {/* Define el enrutamiento de la aplicación */}
           <BrowserRouter>
@@ -111,6 +113,7 @@ function App() {
             </div>
           </BrowserRouter>
         </DataProvider>
+      </HelmetProvider>
   );
 }
 

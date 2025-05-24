@@ -37,7 +37,6 @@ const DataProvider = ({ children }) => {
     const [account, setAccount] = useState({ username: '', name: '' })
 
     return  (
-        // Proporciona el contexto a los componentes hijos que estén dentro del árbol del proveedor
         <DataContext.Provider value={{
 
             account,
