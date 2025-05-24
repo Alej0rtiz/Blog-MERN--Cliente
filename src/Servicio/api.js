@@ -8,7 +8,7 @@ import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from '../constantes/config';
 import { getTokenAccess, getRefreshToken, setAccessToken, setRefreshToken, getType } from '../utilidades/common';
 
 // URL base del servidor backend
-const API_URL = 'http://localhost:8000'; 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000'; 
 
 //instancia personalizada de axios con configuración predeterminada
 const axiosInstance = axios.create({
