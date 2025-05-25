@@ -1,70 +1,81 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---------------------------------Instalación y Ejecución del Proyecto---------------------------------
 
-## Available Scripts
+1. Clonar el proyecto desde nuestro repositorio Estructura del proyecto Blog-MERN--Cliente en GitHub,
+ usando cualquier terminal que se prefiera, en este caso usamos Warp.
 
-In the project directory, you can run:
 
-### `npm start`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+git clone https://github.com/Alej0rtiz/Blog-MERN--Cliente.git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Una vez clonado, entramos a la carpeta del proyecto:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cd C:\Users\Usuario1\Documents\Blog-MERN--Cliente
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-### `npm test`
+3. Una vez en la carpeta del proyecto nos aseguramos de descargar todas las dependencias de nuestro
+paquete en package.json.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+~~~~~~~~~~~
+npm install
+~~~~~~~~~~~
 
-### `npm run build`
+4. Una vez finalizada la instalación, podemos ya iniciar el proyecto así:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+~~~~~~~~~
+npm start
+~~~~~~~~~
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5. Se abrirá el proyecto de forma local y automática en nuestro navegador por defecto, normalmente 
+con la  http://localhost:3000.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+-------------------------------Estructura del proyecto Blog-MERN--Cliente-------------------------------
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+/src  Blog-MERN--Cliente
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+/src Blog-MERN--Cliente
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+/Componentes: Carpeta y directorio que contiene los componentes React utilizados en nuestro proyecto.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+/Cuenta: Componentes relacionados con la autenticación y la cuenta del usuario.
 
-## Learn More
+	Login: Modulo con el formulario interactivo (inicio de sesión o registro).
+		Elementos: Campos de texto, botones (iniciar sesión, Ya tengo una cuenta) y mensajes de error.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+/inicio: Componentes relacionados con la página principal y la visualización de entradas.
+	
+	Categorías: Modulo con una lista de enlaces para filtrar los post por categorías
+		Elementos: Textos con enlaces a la diferentes categorías.
+	Home: Módulo que organiza la página principal en tres columnas con un diseño "Holy Grail"
+		Elementos: Categorías (izquierda), posts o publicaciones (centro) recomendaciones (derecha).
+	Recomendaciones: Modulo que muestra un apartado del lado derecho con sugerencias para el usuario
+		Elementos: Post recomendado(Titulo, creador y categoría)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+/Publicaciones: Componentes relacionados a la creación y visualización de los post.
 
-### Code Splitting
+	Post: Módulo que muestra la lista de publicaciones del blog según la categoría.
+		Elementos: Texto(Título, autor, fecha y contenido del post)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+/Cabecera: Componente de cabecera común para rutas privadas.
 
-### Analyzing the Bundle Size
+	Header: Modulo para nuestra barra superior de navegación para nuestros usuarios autenticados.
+		Elementos: Titulo, Enlaces(Inicio, Perfil, Cerrar sesión)
+	
+/Crear: Componentes para la creación y edición de entradas del blog.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+	Crearpost: Módulo para que el usuario autenticado redacte y publique un nuevo post.
+		Elementos: Vista previa de imagen, botón de subir imagen, campo de título, campo de descripción, validación de campos,
+			   botón "Publicar". 
+	Editarpost: Módulo que permite al usuario autenticado modificar un post ya creado.      
+		Elementos: Carga y vista previa de imagen, campos prellenados de título y descripción, validación de campos, botón
+			   "Actualizar".
 
-### Making a Progressive Web App
+/Detalles: Componente para mostrar detalles específicos de una entrada del blog.
+	
+	PostDetallado: Módulo que muestra el contenido completo de una publicación seleccionada.
+        Elementos: Imagen destacada, título, autor, fecha, descripción, botones (editar/eliminar si es el autor), y sección de     			   
+                   comentarios.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
