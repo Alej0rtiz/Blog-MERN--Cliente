@@ -232,8 +232,8 @@ const loginUser = async () => {
             console.log("Datos del login:", response.data); //Console.log para depuracion
 
             // Guarda tokens en sessionStorage y redirige al home
-            sessionStorage.setItem('TokenAccess', response.data.TokenAccess);
-            sessionStorage.setItem('RefreshToken', response.data.RefreshToken);
+            localStorage.setItem('TokenAccess', response.data.TokenAccess);
+            localStorage.setItem('RefreshToken', response.data.RefreshToken);
 
             console.log('RefreshToken guardado en sessionStorage:', sessionStorage.getItem('RefreshToken'));
 

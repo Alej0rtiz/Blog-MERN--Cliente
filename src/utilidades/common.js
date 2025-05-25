@@ -5,30 +5,30 @@
 
 export const getTokenAccess = () => {
     // Obtiene el token de acceso del almacenamiento de sesión
-    return sessionStorage.getItem('TokenAccess');
+    return localStorage.getItem('TokenAccess');
 };
 
 export const getRefreshToken = () => {
     // Obtiene el token de refresco del almacenamiento de sesión
-    return sessionStorage.getItem('RefreshToken');
+    return localStorage.getItem('RefreshToken');
 };
 
 export const setAccessToken = (token) => {
     // Modifica el token de Acceso del almacenamiento de sesión
     if(token){
-        return sessionStorage.setItem('TokenAccess', token);
+        return localStorage.setItem('TokenAccess', token);
     
     }else{
-        sessionStorage.removeItem('TokenAccess');
+        localStorage.removeItem('TokenAccess');
     }
 };
 
 export const setRefreshToken = (token) => {
     // Modifica el token de Refresco del almacenamiento de sesión
     if(token){
-        return sessionStorage.setItem('RefreshToken',token);
+        return localStorage.setItem('RefreshToken',token);
     }else{
-        sessionStorage.removeItem('RefreshToken');
+        localStorage.removeItem('RefreshToken');
     }
 };
 
