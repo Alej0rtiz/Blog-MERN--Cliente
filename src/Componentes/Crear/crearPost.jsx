@@ -170,7 +170,7 @@ const CreatePost = () => {
                     //llamado al API
                 // Subida del archivo a través del API
                 const response = await API.uploadFile(data);
-                post.picture = response.data.url;
+                setPost(prev => ({ ...prev, picture: response.data.url }));
                 } catch (error) {
                     console.error("Error en la carga de archivo:", error);
                 }
@@ -211,6 +211,10 @@ const CreatePost = () => {
         if (!validate()) return; // Si falla validación, no continuar
 
         let response = await API.createPost(post);//llamado al API para el guardado
+
+        setPost(PostInitVals);//limpieza del formulario
+        setFile('');
+
             navigate('/'); // Redirige a la página principal después de crear el post
 
     }
