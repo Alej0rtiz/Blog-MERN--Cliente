@@ -22,9 +22,13 @@ import Profile from './Componentes/inicio/profile';
 //---------------------------------------------
 // Componente de ruta privada que protege las rutas que requieren autenticación
 //---------------------------------------------
-const RutaPrivada = ({ isAuthenticated }) =>{
+const RutaPrivada = ({ isAuthenticated, isCheckingAuth }) =>{
 
     const location = useLocation();
+
+    if (isCheckingAuth) {
+    return null;
+    }
 
     if (!isAuthenticated) {
     return <Navigate to="/login" replace state={{ from: location }} />;
@@ -96,7 +100,7 @@ function App() {
                 <Route path = '/Login' element = {<Login isUserAuthenticated={isUserAuthenticated} />} />
                 
                 {/* Rutas privadas protegidas */}
-                <Route path='/' element={<RutaPrivada isAuthenticated={isAuthenticated} />}>
+                <Route path='/' element={<RutaPrivada isAuthenticated={isAuthenticated} isCheckingAuth={isCheckingAuth} />}>
                   {/* Página principal (home) */}
                   <Route index element={<Home />} /> {/* ruta raiz o /?category=... */}
                   {/* Página de inicio explícita */}
