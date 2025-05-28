@@ -10,6 +10,8 @@ import { getTokenAccess, getRefreshToken, setAccessToken, getType } from '../uti
 // URL base del servidor backend
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000'; 
 
+//const API_URL = 'http://localhost:8000';
+
 //instancia personalizada de axios con configuración predeterminada
 const axiosInstance = axios.create({
 
